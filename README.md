@@ -131,6 +131,33 @@ Then we can run it; this should open in the browser:
 $ juypter notebook book/02_production.ipynb
 ```
 
-# TODO
+Once that's done, any notebook sections in the `book/` subdirectory
+_that are intended to run locally_ should work.
+I'll update my copies of the book chapter notebooks as I go through the course,
+to ensure they work for me.
 
-- See if I can load the model.pkl I downloaded from running the chapter 2 notebook on Colab.
+For example, I made some changes to the [chapter 2 notebook](book/02_production.ipynb) to ensure I can resume locally
+with the exported bear classification pickle (included in this repo)
+without having to re-do the first half that's intended to be run on Colab with
+a GPU.  (I may later try running _everything_ locally and see how long it takes
+to train on the M1's GPU, which only has 8GB unified memory for both CPU and GPU!)
+
+That done, it worked! Like so:
+
+```python
+
+from fastbook import *
+from fastai.vision.widgets import *
+
+path = Path()
+exported_bear_model_path = path/'bear-export.pkl'
+learn_inf = load_learner(exported_bear_model_path)
+
+test_image_path = Path() / "images"
+test_image_path = test_image_path / "grizzly.jpg"
+
+learn_inf.predict(test_image_path')
+```
+```
+('grizzly', tensor(1), tensor([2.7573e-04, 9.9949e-01, 2.3265e-04]))
+```
