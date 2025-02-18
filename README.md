@@ -108,8 +108,29 @@ Matplotlib is building the font cache; this may take a moment.
 >>>
 ```
 
-# NEXT STEPS / TODO 2/18/25
+# Running the notebook locally
 
-- See if jupyter notebooks work locally
+I tried running `jupyter notebook` and navigating to chapter 2.
+It worked! But cells wouldn't run. I noticed this logged in the terminal:
+
+```console
+[W 2025-02-18 16:39:30.338 ServerApp] Notebook book/01_intro.ipynb is not trusted
+```
+
+Jupyter will need to be told it's OK to trust this notebook, and then we can
+run it:
+
+```console
+$ jupyter trust book/02_production.ipynb
+Signing notebook: book/02_production.ipynb
+```
+
+Then we can run it; this should open in the browser:
+
+```console
+$ juypter notebook book/02_production.ipynb
+```
+
+# TODO
 
 - See if I can load the model.pkl I downloaded from running the chapter 2 notebook on Colab.
