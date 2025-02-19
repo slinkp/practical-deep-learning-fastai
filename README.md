@@ -180,3 +180,13 @@ That should be:
 !jupyter server extension enable --sys-prefix voila
 ```
 
+
+### HUGGINGFACE WARNING: need to enable git lfs BEFORE adding a large blob
+
+Don't just dump a big pickle file into your repo!
+Other folks ran into this issue:
+
+```
+You will also need to install Git LFS, which will be used to handle large files
+such as images and model weights.
+```
