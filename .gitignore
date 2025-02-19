@@ -1,2 +1,3 @@
 .envrc
-book/.ipynb_checkpoints/
+*.ipynb_checkpoints/
+*.gradio
