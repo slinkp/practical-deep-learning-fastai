@@ -180,6 +180,34 @@ That should be:
 !jupyter server extension enable --sys-prefix voila
 ```
 
+### Exporting with nbdev
+
+This wasn't mentioned:
+
+```console
+$ pip install nbdev
+````
+
+The video code at 49:14 is wrong, this works:
+
+```python
+import nbdev.export
+nbdev.export.nb_export("02_app.ipynb", name="deployable_is_it_a_cat")
+```
+
+That done, the exported file works when run locally:
+
+```console
+$ cd lessons/
+$ python deployable_is_it_a_cat.py
+* Running on local URL:  http://127.0.0.1:7861
+
+To create a public link, set `share=True` in `launch()`.
+```
+I can click that URL and upload cats and dogs and get an answer:
+
+<img src="./lessons/screenshot_is_it_a_cat.png">
+
 
 ### HUGGINGFACE WARNING: need to enable git lfs BEFORE adding a large blob
 
