@@ -2,7 +2,10 @@
 
 [Paul Winkler](https://www.recurse.com/directory/5804-paul-winkler)
 
-## Installing fastbook / fastai on a Macbook Air M1 (2020)
+
+## Notes on Chapter 2: Production
+
+### Installing fastbook / fastai on a Macbook Air M1 (2020)
 
 Various warnings about Mac not being supported.
 
@@ -64,7 +67,7 @@ That seemed to work as per the example program:
 all good
 ```
 
-So I tried fastbook (which includes fastai) - apparently this reinstalls
+So I tried `pip install fastbook` (which includes fastai) - apparently this reinstalls
 different versions of pytorch et al.
 Why am I using pip?
 Because that's what's used in all the example jupyter notebooks for this course
@@ -108,7 +111,7 @@ Matplotlib is building the font cache; this may take a moment.
 >>>
 ```
 
-# Running the notebook locally
+### Running the notebook locally
 
 I tried running `jupyter notebook` and navigating to chapter 2.
 It worked! But cells wouldn't run. I noticed this logged in the terminal:
@@ -125,10 +128,10 @@ $ jupyter trust book/02_production.ipynb
 Signing notebook: book/02_production.ipynb
 ```
 
-Then we can run it; this should open in the browser:
+Then we can run it again:
 
 ```console
-$ juypter notebook book/02_production.ipynb
+$ juypter notebook
 ```
 
 Once that's done, any notebook sections in the `book/` subdirectory
@@ -136,11 +139,12 @@ _that are intended to run locally_ should work.
 I'll update my copies of the book chapter notebooks as I go through the course,
 to ensure they work for me.
 
-For example, I made some changes to the [chapter 2 notebook](book/02_production.ipynb) to ensure I can resume locally
-with the exported bear classification pickle (included in this repo)
-without having to re-do the first half that's intended to be run on Colab with
-a GPU.  (I may later try running _everything_ locally and see how long it takes
-to train on the M1's GPU, which only has 8GB unified memory for both CPU and GPU!)
+For example, I made some changes to my fork of the [chapter 2 notebook](book/02_production.ipynb)
+to ensure I can resume locally with the
+exported bear classification pickle (included in this repo) without having to
+re-do the first half that's intended to be run on Colab with a GPU.  (I may
+later try running _everything_ locally and see how long it takes to train on
+the M1's GPU, which only has 8GB unified memory for both CPU and GPU!)
 
 That done, it worked! Like so:
 
@@ -161,3 +165,18 @@ learn_inf.predict(test_image_path')
 ```
 ('grizzly', tensor(1), tensor([2.7573e-04, 9.9949e-01, 2.3265e-04]))
 ```
+
+### Enabling Voila
+
+The book gives an obsolete command:
+
+```
+!jupyter serverextension enable --sys-prefix voila
+```
+
+That should be:
+
+```
+!jupyter server extension enable --sys-prefix voila
+```
+
