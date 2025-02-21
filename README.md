@@ -180,13 +180,16 @@ That should be:
 !jupyter server extension enable --sys-prefix voila
 ```
 
+However, I ended up skipping Voila because in the video lesson,
+that seems to have been dropped in favor of Gradio.
+
 ### Exporting with nbdev
 
 This wasn't mentioned:
 
 ```console
 $ pip install nbdev
-````
+```
 
 The video code at 49:14 is wrong, this works:
 
@@ -229,10 +232,47 @@ brew install git-lfs
 Then we can enable it:
 
 ```
+git lfs install
 git lfs track '*.pkl'
 git lfs track '*.jpg'
 git lfs track '*.png'
 git lfs track '*.jpeg'
 ```
 
-Need to do that BEFORE adding big files.
+Need to do that BEFORE adding big files, or else you get:
+
+```console
+$ git push
+Username for 'https://huggingface.co': slinkp@gmail.com
+Password for 'https://slinkp@gmail.com@huggingface.co':
+Enumerating objects: 14, done.
+Counting objects: 100% (14/14), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (12/12), done.
+Writing objects: 100% (13/13), 41.82 MiB | 1.93 MiB/s, done.
+Total 13 (delta 2), reused 0 (delta 0), pack-reused 0
+remote: -------------------------------------------------------------------------
+remote: Your push was rejected because it contains files larger than 10 MiB.
+remote: Please use https://git-lfs.github.com/ to store large files.
+remote: See also: https://hf.co/docs/hub/repositories-getting-started#terminal
+remote:
+remote: Offending files:
+remote:   - 02_is_cat_model.pkl (ref: refs/heads/main)
+remote: -------------------------------------------------------------------------
+To https://huggingface.co/spaces/slinkp/is_it_a_cat
+```
+
+If you create the repo on huggingface spaces that may work out of the box?
+I think I hit this because I created my own repo, then added my huggingface
+space as a remote.
+
+Removing the file, rebasing the remove onto the commit that added it so it
+never existed, then re-adding in a new commit AFTER doing `git lfs install`
+seems to have worked.
+
+### My first working app on Huggingface 
+
+This is the dog / cat classifier example from lesson 2:
+
+https://huggingface.co/spaces/slinkp/is_it_a_cat
+
