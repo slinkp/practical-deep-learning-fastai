@@ -522,7 +522,7 @@
             dogBar.style.width = `${dogProb * 100}%`;
             
             // Determine the winning label
-            const winningLabel = data[0].label.toLowerCase();
+            let winningLabel = data[0].label.toLowerCase();
             const winningProb = winningLabel === "cat" ? catProb : dogProb;
             const losingProb = winningLabel === "cat" ? dogProb : catProb;
             
@@ -531,12 +531,16 @@
             
             
             if (winningProb > 0.9999) {
-                commentary = `It's definitely a ${winningLabel}!`;
+                commentary = `That's a ${winningLabel} for sure.`;
+                winningLabel = `It's a ${winningLabel}!`;
             } else if (winningProb > 0.995) {
                 commentary = `That's a ${winningLabel}! Though there's a ${(losingProb * 100).toFixed(2)}% chance I might be mistaken.`;
+                winningLabel = `Probably a ${winningLabel}!`;
             } else if (winningProb > 0.98) {
                 commentary = `I think it's a ${winningLabel}? Is it a catdog?`;
+                winningLabel = `${winningLabel}?`;
             } else {
+                winningLabel = `No idea.`;
                 commentary = `I really don't know. Cat: ${(catProb * 100).toFixed(2)}%, Dog: ${(dogProb * 100).toFixed(2)}%. Is it even an animal? Maybe it's a toaster? Could it be both?!`;
             }
             
@@ -546,7 +550,7 @@
             }
             
             // Display the result and commentary
-            predictionText.innerHTML = `It's a <span id="result-label">${winningLabel}</span>!<br><span style="font-size: 0.9em; font-style: italic;">${commentary}</span>`;
+            predictionText.innerHTML = `<span id="result-label">${winningLabel}</span><br><span style="font-size: 0.9em; font-style: italic;">${commentary}</span>`;
             
             // Show the result container
             resultContainer.style.display = 'block';
