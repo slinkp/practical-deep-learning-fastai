@@ -188,6 +188,30 @@
             display: block;
             margin: 10px auto 0;
         }
+        
+        .retry-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            margin: 15px auto 0;
+        }
+        
+        .iframe-container {
+            display: none;
+            margin-top: 20px;
+        }
+        
+        #hf-iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 8px;
+        }
     </style>
 </head>
 <body>
@@ -217,6 +241,12 @@
         <p>Sorry, an error occurred. Please try again.</p>
         <div id="error-details"></div>
         <button class="debug-btn" id="show-error">Show Details</button>
+        <button class="retry-btn" id="retry-button">Try Again</button>
+        <button class="retry-btn" id="iframe-button">Open Hugging Face Space</button>
+    </div>
+    
+    <div class="iframe-container" id="iframe-container">
+        <iframe id="hf-iframe" src="https://slinkp-is-it-a-cat.hf.space" title="Is It A Cat"></iframe>
     </div>
     
     <div class="result-container" id="result-container">
@@ -246,7 +276,9 @@
         </div>
     </div>
     
-    <script>
+    <script type="module">
+        import { Client } from "https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js";
+        
         // DOM elements
         const dropArea = document.getElementById('drop-area');
         const uploadButton = document.getElementById('upload-button');
@@ -258,12 +290,17 @@
         const error = document.getElementById('error');
         const errorDetails = document.getElementById('error-details');
         const showErrorBtn = document.getElementById('show-error');
+        const retryButton = document.getElementById('retry-button');
+        const iframeButton = document.getElementById('iframe-button');
+        const iframeContainer = document.getElementById('iframe-container');
         const predictionText = document.getElementById('prediction');
         const resultLabel = document.getElementById('result-label');
         const catConfidenceText = document.getElementById('cat-confidence');
         const dogConfidenceText = document.getElementById('dog-confidence');
         const catBar = document.getElementById('cat-bar');
         const dogBar = document.getElementById('dog-bar');
+        
+        let currentFile = null;
         
         console.log("Script loaded. Setting up event listeners...");
         
@@ -276,6 +313,23 @@
                 errorDetails.style.display = 'block';
                 showErrorBtn.textContent = 'Hide Details';
             }
+        });
+        
+        // Retry button
+        retryButton.addEventListener('click', () => {
+            error.style.display = 'none';
+            iframeContainer.style.display = 'none';
+            if (currentFile) {
+                analyzeImage(currentFile);
+            } else {
+                dropArea.click();
+            }
+        });
+        
+        // Show iframe button
+        iframeButton.addEventListener('click', () => {
+            iframeContainer.style.display = 'block';
+            window.scrollTo(0, iframeContainer.offsetTop);
         });
         
         // Event listeners for drag and drop
@@ -321,6 +375,7 @@
             if (files.length > 0) {
                 const file = files[0];
                 console.log("Selected file:", file.name, file.type, file.size);
+                currentFile = file;
                 
                 if (file.type.startsWith('image/')) {
                     displayPreview(file);
@@ -357,6 +412,7 @@
                 previewContainer.style.display = 'block';
                 resultContainer.style.display = 'none';
                 error.style.display = 'none';
+                iframeContainer.style.display = 'none';
             }
             reader.onerror = function(e) {
                 console.error("Error reading file:", e);
@@ -371,44 +427,61 @@
             error.style.display = 'none';
             
             try {
-                // Using fetch directly instead of the Gradio client library
-                console.log("Preparing form data");
-                const formData = new FormData();
-                formData.append('img', file);
+                console.log("Creating Gradio client");
+                // Create a Gradio client to connect to the space
+                const app = await Client.connect("slinkp/is_it_a_cat");
+                console.log("Gradio client created:", app);
                 
-                console.log("Sending API request to Hugging Face");
-                const response = await fetch('https://slinkp-is-it-a-cat.hf.space/api/predict', {
-                    method: 'POST',
-                    body: formData
-                });
+                console.log("Submitting job to predict API");
+                // Submit the prediction job to the API
+                const result = await app.predict("/predict", [
+                    file // img parameter
+                ]);
                 
-                if (!response.ok) {
-                    const errorText = await response.text();
-                    throw new Error(`API request failed with status ${response.status}: ${errorText}`);
-                }
-                
-                console.log("API response received");
-                const result = await response.json();
-                console.log("Result data:", result);
+                console.log("API result received:", result.data);
                 
                 // Process the API response
-                const data = result.data || {};
-                displayResults(data);
+                if (result && result.data) {
+                    displayResults(result.data);
+                } else {
+                    throw new Error("Invalid response format from API: " + JSON.stringify(result));
+                }
             } catch (err) {
                 console.error("Error during analysis:", err);
-                showError("Error analyzing image: " + err.message, err);
+                showError(`Error analyzing image: ${err.message}`, err);
             } finally {
                 loading.style.display = 'none';
             }
         }
         
         function displayResults(data) {
-            console.log("Displaying results:", data);
-            // Format of data: { "Cat": 0.9876, "Dog": 0.0124 }
-            const catProb = data.Cat || 0;
-            const dogProb = data.Dog || 0;
+            console.log("Displaying results, raw data:", data);
             
-            console.log("Probabilities - Cat:", catProb, "Dog:", dogProb);
+            // The data structure is:
+            // [{ label: "Cat", confidences: [{ label: "Cat", confidence: 0.99 }, { label: "Dog", confidence: 0.01 }] }]
+            
+            let catProb = 0;
+            let dogProb = 0;
+            
+            // Check if data is in the expected format (array with at least one item)
+            if (Array.isArray(data) && data.length > 0 && data[0].confidences) {
+                // Extract confidences from the first result
+                const confidences = data[0].confidences;
+                
+                // Find cat and dog probabilities
+                for (const item of confidences) {
+                    if (item.label === "Cat") {
+                        catProb = item.confidence;
+                    } else if (item.label === "Dog") {
+                        dogProb = item.confidence;
+                    }
+                }
+                
+                // Log the extracted probabilities
+                console.log("Extracted probabilities - Cat:", catProb, "Dog:", dogProb);
+            } else {
+                console.warn("Unexpected data format:", data);
+            }
             
             // Set the confidence text
             catConfidenceText.textContent = `${Math.round(catProb * 100)}%`;
@@ -418,13 +491,8 @@
             catBar.style.width = `${catProb * 100}%`;
             dogBar.style.width = `${dogProb * 100}%`;
             
-            // Determine the result
-            if (catProb > dogProb) {
-                resultLabel.textContent = "cat";
-            } else {
-                resultLabel.textContent = "dog";
-            }
-            
+            // Display the result
+            resultLabel.textContent = data[0].label;
             // Show the result container
             resultContainer.style.display = 'block';
         }
