@@ -37,6 +37,13 @@
             margin-bottom: 20px;
         }
         
+        .drop-area.disabled {
+            border-color: #bdc3c7;
+            background-color: #f5f5f5;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
         .drop-area.highlight {
             background-color: rgba(52, 152, 219, 0.1);
         }
@@ -58,11 +65,17 @@
             border-radius: 4px;
             cursor: pointer;
             font-size: 16px;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, opacity 0.3s;
         }
         
         .upload-btn:hover {
             background-color: #2980b9;
+        }
+        
+        .upload-btn:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+            opacity: 0.7;
         }
         
         .preview-container {
@@ -142,6 +155,12 @@
             margin: 20px 0;
         }
         
+        .init-loading {
+            display: block;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
         .spinner {
             border: 4px solid rgba(0, 0, 0, 0.1);
             border-radius: 50%;
@@ -212,20 +231,34 @@
             border: none;
             border-radius: 8px;
         }
+        
+        .status-message {
+            text-align: center;
+            font-style: italic;
+            color: #7f8c8d;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
     <h1>Is It A Cat?</h1>
     
+    <div class="init-loading" id="init-loading">
+        <div class="spinner"></div>
+        <p class="status-message">Loading app...</p>
+    </div>
+    
     <div class="upload-container">
-        <div id="drop-area" class="drop-area">
+        <div id="drop-area" class="drop-area disabled">
             <p>Drag & drop an image here or click to upload</p>
         </div>
         
         <div class="button-container">
-            <input type="file" id="file-upload" accept="image/*">
-            <button class="upload-btn" id="upload-button">Upload Image</button>
+            <input type="file" id="file-upload" accept="image/*" disabled>
+            <button class="upload-btn" id="upload-button" disabled>Upload Image</button>
         </div>
+        
+        <div class="status-message" id="status-message">Please wait while the app initializes...</div>
         
         <div class="preview-container" id="preview-container">
             <img id="image-preview" alt="Image Preview">
@@ -287,6 +320,8 @@
         const imagePreview = document.getElementById('image-preview');
         const resultContainer = document.getElementById('result-container');
         const loading = document.getElementById('loading');
+        const initLoading = document.getElementById('init-loading');
+        const statusMessage = document.getElementById('status-message');
         const error = document.getElementById('error');
         const errorDetails = document.getElementById('error-details');
         const showErrorBtn = document.getElementById('show-error');
@@ -301,6 +336,7 @@
         const dogBar = document.getElementById('dog-bar');
         
         let currentFile = null;
+        let app = null;
         
         console.log("Script loaded. Setting up event listeners...");
         
@@ -351,11 +387,13 @@
         });
         
         function highlight() {
+            if (dropArea.classList.contains('disabled')) return;
             console.log("Drag highlighted");
             dropArea.classList.add('highlight');
         }
         
         function unhighlight() {
+            if (dropArea.classList.contains('disabled')) return;
             console.log("Drag unhighlighted");
             dropArea.classList.remove('highlight');
         }
@@ -364,6 +402,7 @@
         dropArea.addEventListener('drop', handleDrop, false);
         
         function handleDrop(e) {
+            if (dropArea.classList.contains('disabled')) return;
             console.log("File dropped");
             const dt = e.dataTransfer;
             const files = dt.files;
@@ -388,6 +427,7 @@
         
         // Handle uploaded files via button
         uploadButton.addEventListener('click', () => {
+            if (uploadButton.disabled) return;
             console.log("Upload button clicked");
             fileUpload.click();
         });
@@ -399,6 +439,7 @@
         
         // Click on drop area to upload
         dropArea.addEventListener('click', () => {
+            if (dropArea.classList.contains('disabled')) return;
             console.log("Drop area clicked");
             fileUpload.click();
         });
@@ -427,10 +468,12 @@
             error.style.display = 'none';
             
             try {
-                console.log("Creating Gradio client");
-                // Create a Gradio client to connect to the space
-                const app = await Client.connect("slinkp/is_it_a_cat");
-                console.log("Gradio client created:", app);
+                if (!app) {
+                    console.log("Creating Gradio client");
+                    // Create a Gradio client to connect to the space if not already created
+                    app = await Client.connect("slinkp/is_it_a_cat");
+                    console.log("Gradio client created:", app);
+                }
                 
                 console.log("Submitting job to predict API");
                 // Submit the prediction job to the API
@@ -548,8 +591,38 @@
             }
         }
         
+        // Initialize the app and enable UI when ready
+        async function initApp() {
+            try {
+                console.log("Initializing app...");
+                statusMessage.textContent = "Connecting to the cat/dog classifier...";
+                
+                // Connect to the Gradio client
+                app = await Client.connect("slinkp/is_it_a_cat");
+                console.log("Gradio client created:", app);
+                
+                // Enable UI components once connected
+                dropArea.classList.remove('disabled');
+                uploadButton.disabled = false;
+                fileUpload.disabled = false;
+                statusMessage.textContent = "Ready! Upload an image or drag & drop.";
+                initLoading.style.display = 'none';
+                
+                console.log("App initialization complete");
+            } catch (err) {
+                console.error("Error initializing app:", err);
+                statusMessage.textContent = "Error connecting to the classifier. Please refresh the page to try again.";
+                statusMessage.style.color = "#e74c3c";
+                showError(`Failed to initialize the app: ${err.message}`, err);
+                initLoading.style.display = 'none';
+            }
+        }
+        
+        // Start initialization
+        initApp();
+        
         // Log that setup is complete
-        console.log("Setup complete, app ready");
+        console.log("Setup complete, app initializing...");
     </script>
 </body>
 </html> 
