@@ -37,13 +37,6 @@
             margin-bottom: 20px;
         }
         
-        .drop-area.disabled {
-            border-color: #bdc3c7;
-            background-color: #f5f5f5;
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-        
         .drop-area.highlight {
             background-color: rgba(52, 152, 219, 0.1);
         }
@@ -65,17 +58,11 @@
             border-radius: 4px;
             cursor: pointer;
             font-size: 16px;
-            transition: background-color 0.3s, opacity 0.3s;
+            transition: background-color 0.3s;
         }
         
         .upload-btn:hover {
             background-color: #2980b9;
-        }
-        
-        .upload-btn:disabled {
-            background-color: #bdc3c7;
-            cursor: not-allowed;
-            opacity: 0.7;
         }
         
         .preview-container {
@@ -526,9 +513,9 @@
                 console.warn("Unexpected data format:", data);
             }
             
-            // Set the confidence text
-            catConfidenceText.textContent = `${Math.round(catProb * 100)}%`;
-            dogConfidenceText.textContent = `${Math.round(dogProb * 100)}%`;
+            // Set the confidence text with 2 decimal places
+            catConfidenceText.textContent = `${(catProb * 100).toFixed(2)}%`;
+            dogConfidenceText.textContent = `${(dogProb * 100).toFixed(2)}%`;
             
             // Set the bar widths
             catBar.style.width = `${catProb * 100}%`;
@@ -542,33 +529,20 @@
             // Generate a fun commentary based on confidence levels
             let commentary = "";
             
-            if (winningProb > 0.999) {
-                commentary = `It's definitely a ${winningLabel}! I'd bet my digital existence on it!`;
-            } else if (winningProb > 0.99) {
-                commentary = `That's a ${winningLabel} if I've ever seen one! I'm ${Math.round(winningProb * 100)}% sure!`;
-            } else if (winningProb > 0.95) {
-                if (winningLabel === "cat") {
-                    commentary = `I'm purr-ty sure this is a cat! Meow about that!`;
-                } else {
-                    commentary = `I'm barking up the right tree - that's a dog alright!`;
-                }
-            } else if (winningProb > 0.85) {
-                commentary = `I'm fairly confident this is a ${winningLabel}, but I'm not staking my reputation on it.`;
-            } else if (winningProb > 0.7) {
-                commentary = `Hmm, I think it's a ${winningLabel}, but I wouldn't put money on it.`;
-            } else if (winningProb > 0.6) {
-                commentary = `If I had to guess, I'd say it's probably a ${winningLabel}... but don't quote me on that.`;
-            } else if (winningProb > 0.4) {
-                commentary = `This is a tough one! I'm slightly leaning toward ${winningLabel}, but it's a real head-scratcher.`;
-            } else if (catProb < 0.2 && dogProb < 0.2) {
-                commentary = `I have no idea what this is. Is it even an animal? Maybe it's a potted plant?`;
+            
+            if (winningProb > 0.9999) {
+                commentary = `It's definitely a ${winningLabel}!`;
+            } else if (winningProb > 0.995) {
+                commentary = `That's a ${winningLabel}! Though there's a ${(losingProb * 100).toFixed(2)}% chance I might be mistaken.`;
+            } else if (winningProb > 0.98) {
+                commentary = `I think it's a ${winningLabel}? Is it a catdog?`;
             } else {
-                commentary = `I'm experiencing an existential crisis here - I can't tell if it's a cat or a dog!`;
+                commentary = `I really don't know. Cat: ${(catProb * 100).toFixed(2)}%, Dog: ${(dogProb * 100).toFixed(2)}%. Is it even an animal? Maybe it's a toaster? Could it be both?!`;
             }
             
             // Display special messages for very close calls
-            if (Math.abs(catProb - dogProb) < 0.1 && catProb > 0.3) {
-                commentary = `Is it a cat? Is it a dog? Is it a... catdog? The world may never know!`;
+            if (Math.abs(catProb - dogProb) < 0.1 && catProb > 0.4) {
+                commentary = `Is it a cat (${(catProb * 100).toFixed(2)}%)? Is it a dog (${(dogProb * 100).toFixed(2)}%)? Is it a... catdog? I'm so confused!`;
             }
             
             // Display the result and commentary
