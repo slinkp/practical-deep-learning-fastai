@@ -350,3 +350,74 @@ improve my accuracy at all anyway.
       *with* GPU? So I can `DataBlock(...batch_tfms=aug_transforms())`
       but still get fast training.
 
+## Lesson 3: Neural Net Foundations
+
+
+Can pretty much start at [12:11](https://www.youtube.com/watch?v=hBBOjCiFcuo&t=731s)
+
+I'm skipping both paperspace and jupyterlab -
+already got kaggle and colab and local notebooks, i don't need 5 ways of doing
+the same thing! He mentions that jupyterlab is especially good for folks not
+comfortable with terminal. I'm a terminal guy.
+
+Good idea: Use one notebook for training, another for building an app / deploying.
+
+- [ ] TODO: read [which image models are best](https://www.kaggle.com/code/jhoward/which-image-models-are-best/)
+- [ ] TODO: 18:00 try `convnext*` models for my classifier; faster and better than `resnet*`, per that notebook
+- [ ] Q: 18:32 what is `vision_learner(...).to_fp16()`?
+- [ ] 21:47 introspect `learn.model`
+
+Using `@interact` to find a function that fits:
+[27:20](https://www.youtube.com/watch?v=hBBOjCiFcuo&t=1640s)
+
+Then use mean squared error (MSE) to quantify that. That's a "loss function"
+for this example.
+
+Automating improvement of loss function:
+you could try parameters in a loop. But that's slow.
+Better: calculate the derivative!
+That's a function that tells you how to change the parameters to make the loss better.
+
+- [ ] TODO: learn about derivatives. Eg khan academy!
+
+Pytorch can do it for you!
+
+What's a tensor? A: Everything in pytorch is a tensor. Basically an N-dimensional array.
+
+#### Gradient descent!
+
+This basically just optimizes function parameters to minimize the loss
+function by following the derivative in a loop.
+Calculate the gradient, update the parameters, see if the loss decreases,
+repeat.
+
+Walking through an example at [33:39](https://www.youtube.com/watch?v=hBBOjCiFcuo&t=2019s)
+
+### RELU + Gradient Descent = Literally Anything
+
+43:18 - 49:00
+Mind blown.
+Very easy to understand example:
+I finally understand why combining a lot of `max(0, m * x + b)` can approximate any function.
+That's RELU (rectified linear).
+
+
+### How to choose a model
+
+[49:21](https://www.youtube.com/watch?v=hBBOjCiFcuo&t=2961s)
+
+General approach:
+
+Start with the smallest/fastest available model (eg resnet18 for image
+classification). Iterate on *other* stuff (data cleaning, etc) until happy.
+
+Beginner mistake: trying bigger models before you've done that!
+
+Only then consider bigger models.
+If possible look at something like the benchmark graphs in
+https://www.kaggle.com/code/jhoward/which-image-models-are-best/
+... left is faster, up is more accurate.
+
+Ask "do i need it faster? do i need more accuracy?"
+Pick something that has the target performance you want and try it!
+
