@@ -3,7 +3,9 @@
 [Paul Winkler](https://www.recurse.com/directory/5804-paul-winkler)
 
 
-## Notes on Chapter 2: Production
+# Lesson Notes
+
+## Notes on lessons 1 (Getting Started) and 2 (Production)
 
 ### Installing fastbook / fastai on a Macbook Air M1 (2020)
 
@@ -134,9 +136,9 @@ Then we can run it again:
 $ juypter notebook
 ```
 
-Once that's done, any notebook sections in the `book/` subdirectory
+Once that's done, any notebook sections in the `book/` or `lessons/` subdirectory
 _that are intended to run locally_ should work.
-I'll update my copies of the book chapter notebooks as I go through the course,
+I'll update my copies of the notebooks as I go through the course,
 to ensure they work for me.
 
 For example, I made some changes to my fork of the [chapter 2 notebook](book/02_production.ipynb)
@@ -166,7 +168,28 @@ learn_inf.predict(test_image_path')
 ('grizzly', tensor(1), tensor([2.7573e-04, 9.9949e-01, 2.3265e-04]))
 ```
 
-### Enabling Voila
+### Meta note: Probably not going to run / update book notebooks anymore
+
+I found that while it's worth reading the book chapter notebooks, because they have
+background and info that isn't in the video lessons or kaggle notebooks - it's
+not worth the trouble to actually run them.
+
+This is largely because most book
+chapters have not been updated since april 2022 - whereas the kaggle notebooks
+are much more up to date (2024), and even the video lessons from 2022 are at least a few
+months later than the book notebooks.
+
+Result: the book notebooks have too many obsolete commands and API calls that need fixing,
+outdated recommendations for deployment, etc. But the background info is still great.
+
+This seems to jibe with the experience of other people in the study group.
+
+I'll keep an eye out for whether this is still true in later lessons - the
+production deployment chapter is very prone to this problem as there's a
+million ways to run jupyter notebooks and deploy apps from them.
+
+
+### Enabling Voila (can skip this, it's a side quest)
 
 The book gives an obsolete command:
 
