@@ -235,6 +235,15 @@ I can click that URL and upload cats and dogs and get an answer:
 <img src="./lessons/screenshot_is_it_a_cat.png">
 
 
+### Deploying to Huggingface
+
+I made a separate repo to deploy from as that seemed the path of least
+resistance.
+But, that means manually copying the exported app to it, renaming it `app.py`,
+copying needed model files, maintaining a `requirements.txt`, etc.
+None of that hard, but tedious and I'm likely to forget if I ever revisit this!
+
+
 ### HUGGINGFACE WARNING: need to enable git lfs BEFORE adding a large blob
 
 
