@@ -136,6 +136,26 @@
             background-color: #2ecc71;
         }
         
+        #bird-bar {
+            background-color: #3498db;
+        }
+        
+        #bass-bar {
+            background-color: #f39c12;
+        }
+        
+        #guitar-bar {
+            background-color: #9b59b6;
+        }
+        
+        #kitten-bar {
+            background-color: #e84393;
+        }
+        
+        #puppy-bar {
+            background-color: #27ae60;
+        }
+        
         .loading {
             display: none;
             text-align: center;
@@ -271,26 +291,56 @@
     
     <div class="result-container" id="result-container">
         <h2 class="result-title">Classification Result</h2>
-        <div class="prediction" id="prediction">It's a <span id="result-label">cat</span>!</div>
+        <div class="prediction" id="prediction">It's a <span id="result-label">bird</span>!</div>
         
         <div class="confidence-bars">
             <div class="confidence-bar">
                 <div class="bar-label">
-                    <span>Cat</span>
-                    <span id="cat-confidence">0%</span>
+                    <span>Bird</span>
+                    <span id="bird-confidence">0%</span>
                 </div>
                 <div class="bar-container">
-                    <div class="bar" id="cat-bar"></div>
+                    <div class="bar" id="bird-bar"></div>
                 </div>
             </div>
             
             <div class="confidence-bar">
                 <div class="bar-label">
-                    <span>Dog</span>
-                    <span id="dog-confidence">0%</span>
+                    <span>Bass</span>
+                    <span id="bass-confidence">0%</span>
                 </div>
                 <div class="bar-container">
-                    <div class="bar" id="dog-bar"></div>
+                    <div class="bar" id="bass-bar"></div>
+                </div>
+            </div>
+            
+            <div class="confidence-bar">
+                <div class="bar-label">
+                    <span>Guitar</span>
+                    <span id="guitar-confidence">0%</span>
+                </div>
+                <div class="bar-container">
+                    <div class="bar" id="guitar-bar"></div>
+                </div>
+            </div>
+            
+            <div class="confidence-bar">
+                <div class="bar-label">
+                    <span>Kitten</span>
+                    <span id="kitten-confidence">0%</span>
+                </div>
+                <div class="bar-container">
+                    <div class="bar" id="kitten-bar"></div>
+                </div>
+            </div>
+            
+            <div class="confidence-bar">
+                <div class="bar-label">
+                    <span>Puppy</span>
+                    <span id="puppy-confidence">0%</span>
+                </div>
+                <div class="bar-container">
+                    <div class="bar" id="puppy-bar"></div>
                 </div>
             </div>
         </div>
@@ -317,10 +367,16 @@
         const iframeContainer = document.getElementById('iframe-container');
         const predictionText = document.getElementById('prediction');
         const resultLabel = document.getElementById('result-label');
-        const catConfidenceText = document.getElementById('cat-confidence');
-        const dogConfidenceText = document.getElementById('dog-confidence');
-        const catBar = document.getElementById('cat-bar');
-        const dogBar = document.getElementById('dog-bar');
+        const birdConfidenceText = document.getElementById('bird-confidence');
+        const bassConfidenceText = document.getElementById('bass-confidence');
+        const guitarConfidenceText = document.getElementById('guitar-confidence');
+        const kittenConfidenceText = document.getElementById('kitten-confidence');
+        const puppyConfidenceText = document.getElementById('puppy-confidence');
+        const birdBar = document.getElementById('bird-bar');
+        const bassBar = document.getElementById('bass-bar');
+        const guitarBar = document.getElementById('guitar-bar');
+        const kittenBar = document.getElementById('kitten-bar');
+        const puppyBar = document.getElementById('puppy-bar');
         
         let currentFile = null;
         let app = null;
@@ -462,13 +518,41 @@
                     console.log("Gradio client created:", app);
                 }
                 
-                console.log("Submitting job to predict API");
-                // Submit the prediction job to the API
-                const result = await app.predict("/predict", [
-                    file // img parameter
+                // Try to log available endpoints for debugging only
+                try {
+                    console.log("Checking available endpoints...");
+                    const endpoints = await app.endpoints();
+                    console.log("Available endpoints:", endpoints);
+                    
+                    // Just log if predict_1 is available, but always use it regardless
+                    if (endpoints.includes("/predict_1")) {
+                        console.log("predict_1 endpoint is available");
+                    } else {
+                        console.warn("Warning: predict_1 endpoint not found in available endpoints, but will try it anyway");
+                    }
+                } catch (endpointErr) {
+                    console.warn("Could not fetch endpoints, will try predict_1 anyway:", endpointErr);
+                }
+                
+                // Always use the predict_1 endpoint as specified in the API docs
+                const endpoint = "/predict_1";
+                console.log(`Submitting job to ${endpoint} API...`);
+                console.log("File being sent:", file.name, file.type, file.size);
+                
+                // Create a timeout promise with a longer timeout
+                const timeoutPromise = new Promise((_, reject) => {
+                    setTimeout(() => reject(new Error(`API call to ${endpoint} timed out after 30 seconds`)), 30000);
+                });
+                
+                // Race the API call against the timeout
+                // Note: According to the API docs, we need to pass the file as a named parameter 'img'
+                const result = await Promise.race([
+                    app.predict(endpoint, { img: file }),
+                    timeoutPromise
                 ]);
                 
-                console.log("API result received:", result.data);
+                console.log("API result received:", result);
+                console.log("API data:", result.data);
                 
                 // Process the API response
                 if (result && result.data) {
@@ -478,7 +562,19 @@
                 }
             } catch (err) {
                 console.error("Error during analysis:", err);
-                showError(`Error analyzing image: ${err.message}`, err);
+                console.error("Error name:", err.name);
+                console.error("Error message:", err.message);
+                console.error("Error stack:", err.stack);
+                
+                // Provide a more helpful error message
+                let errorMessage = `Error analyzing image: ${err.message}`;
+                if (err.message.includes("timed out")) {
+                    errorMessage += "\n\nThe API call to the five-way classifier timed out. This could be because:\n" +
+                        "1. The server is taking too long to respond\n" +
+                        "2. There might be an issue with the file format or size";
+                }
+                
+                showError(errorMessage, err);
             } finally {
                 loading.style.display = 'none';
             }
@@ -486,45 +582,87 @@
         
         function displayResults(data) {
             console.log("Displaying results, raw data:", data);
+            console.log("Data type:", typeof data);
+            console.log("Is array:", Array.isArray(data));
+            
+            if (Array.isArray(data)) {
+                console.log("Array length:", data.length);
+                if (data.length > 0) {
+                    console.log("First item:", data[0]);
+                    console.log("First item has confidences:", data[0].hasOwnProperty('confidences'));
+                    if (data[0].confidences) {
+                        console.log("Confidences array:", data[0].confidences);
+                    }
+                }
+            }
             
             // The data structure is:
-            // [{ label: "Cat", confidences: [{ label: "Cat", confidence: 0.99 }, { label: "Dog", confidence: 0.01 }] }]
+            // [{ label: "bird", confidences: [{ label: "bird", confidence: 0.99 }, { label: "bass", confidence: 0.01 }, etc.] }]
             
-            let catProb = 0;
-            let dogProb = 0;
+            let birdProb = 0;
+            let bassProb = 0;
+            let guitarProb = 0;
+            let kittenProb = 0;
+            let puppyProb = 0;
             
             // Check if data is in the expected format (array with at least one item)
             if (Array.isArray(data) && data.length > 0 && data[0].confidences) {
                 // Extract confidences from the first result
                 const confidences = data[0].confidences;
                 
-                // Find cat and dog probabilities
+                // Find probabilities - note that the API returns lowercase labels
                 for (const item of confidences) {
-                    if (item.label === "Cat") {
-                        catProb = item.confidence;
-                    } else if (item.label === "Dog") {
-                        dogProb = item.confidence;
+                    console.log("Processing confidence item:", item);
+                    const label = item.label.toLowerCase(); // Ensure lowercase comparison
+                    
+                    if (label === "bird") {
+                        birdProb = item.confidence;
+                    } else if (label === "bass") {
+                        bassProb = item.confidence;
+                    } else if (label === "guitar") {
+                        guitarProb = item.confidence;
+                    } else if (label === "kitten") {
+                        kittenProb = item.confidence;
+                    } else if (label === "puppy") {
+                        puppyProb = item.confidence;
                     }
                 }
                 
                 // Log the extracted probabilities
-                console.log("Extracted probabilities - Cat:", catProb, "Dog:", dogProb);
+                console.log("Extracted probabilities - Bird:", birdProb, "Bass:", bassProb, "Guitar:", guitarProb, "Kitten:", kittenProb, "Puppy:", puppyProb);
             } else {
                 console.warn("Unexpected data format:", data);
             }
             
             // Set the confidence text with 2 decimal places
-            catConfidenceText.textContent = `${(catProb * 100).toFixed(2)}%`;
-            dogConfidenceText.textContent = `${(dogProb * 100).toFixed(2)}%`;
+            birdConfidenceText.textContent = `${(birdProb * 100).toFixed(2)}%`;
+            bassConfidenceText.textContent = `${(bassProb * 100).toFixed(2)}%`;
+            guitarConfidenceText.textContent = `${(guitarProb * 100).toFixed(2)}%`;
+            kittenConfidenceText.textContent = `${(kittenProb * 100).toFixed(2)}%`;
+            puppyConfidenceText.textContent = `${(puppyProb * 100).toFixed(2)}%`;
             
             // Set the bar widths
-            catBar.style.width = `${catProb * 100}%`;
-            dogBar.style.width = `${dogProb * 100}%`;
+            birdBar.style.width = `${birdProb * 100}%`;
+            bassBar.style.width = `${bassProb * 100}%`;
+            guitarBar.style.width = `${guitarProb * 100}%`;
+            kittenBar.style.width = `${kittenProb * 100}%`;
+            puppyBar.style.width = `${puppyProb * 100}%`;
             
             // Determine the winning label
             let winningLabel = data[0].label.toLowerCase();
-            const winningProb = winningLabel === "cat" ? catProb : dogProb;
-            const losingProb = winningLabel === "cat" ? dogProb : catProb;
+            const probabilities = {
+                "bird": birdProb,
+                "bass": bassProb,
+                "guitar": guitarProb,
+                "kitten": kittenProb,
+                "puppy": puppyProb
+            };
+            
+            const winningProb = probabilities[winningLabel];
+            const otherProbs = Object.entries(probabilities)
+                .filter(([label, _]) => label !== winningLabel)
+                .sort((a, b) => b[1] - a[1]);
+            const secondHighestProb = otherProbs.length > 0 ? otherProbs[0][1] : 0;
             
             // Generate a fun commentary based on confidence levels
             let commentary = "";
@@ -534,19 +672,20 @@
                 commentary = `That's a ${winningLabel} for sure.`;
                 winningLabel = `It's a ${winningLabel}!`;
             } else if (winningProb > 0.995) {
-                commentary = `That's a ${winningLabel}! Though there's a ${(losingProb * 100).toFixed(2)}% chance I might be mistaken.`;
+                commentary = `That's a ${winningLabel}! Though there's a ${(secondHighestProb * 100).toFixed(2)}% chance I might be mistaken.`;
                 winningLabel = `Probably a ${winningLabel}!`;
             } else if (winningProb > 0.98) {
-                commentary = `I think it's a ${winningLabel}? Is it a catdog?`;
+                commentary = `I think it's a ${winningLabel}? But I'm not 100% sure.`;
                 winningLabel = `${winningLabel}?`;
             } else {
                 winningLabel = `No idea.`;
-                commentary = `I really don't know. Cat: ${(catProb * 100).toFixed(2)}%, Dog: ${(dogProb * 100).toFixed(2)}%. Is it even an animal? Maybe it's a toaster? Could it be both?!`;
+                commentary = `I really don't know. Bird: ${(birdProb * 100).toFixed(2)}%, Bass: ${(bassProb * 100).toFixed(2)}%, Guitar: ${(guitarProb * 100).toFixed(2)}%, Kitten: ${(kittenProb * 100).toFixed(2)}%, Puppy: ${(puppyProb * 100).toFixed(2)}%. Is it even one of these things?`;
             }
             
             // Display special messages for very close calls
-            if (Math.abs(catProb - dogProb) < 0.1 && catProb > 0.4) {
-                commentary = `Is it a cat (${(catProb * 100).toFixed(2)}%)? Is it a dog (${(dogProb * 100).toFixed(2)}%)? Is it a... catdog? I'm so confused!`;
+            const closestCompetitor = otherProbs.length > 0 ? otherProbs[0][0] : null;
+            if (closestCompetitor && Math.abs(winningProb - secondHighestProb) < 0.1 && winningProb > 0.4) {
+                commentary = `Is it a ${winningLabel} (${(winningProb * 100).toFixed(2)}%)? Is it a ${closestCompetitor} (${(secondHighestProb * 100).toFixed(2)}%)? I'm so confused!`;
             }
             
             // Display the result and commentary
@@ -573,22 +712,44 @@
         async function initApp() {
             try {
                 console.log("Initializing app...");
-                statusMessage.textContent = "Connecting to the cat/dog classifier...";
+                statusMessage.textContent = "Connecting to the classifier...";
                 
                 // Connect to the Gradio client
+                console.log("Connecting to Gradio client...");
                 app = await Client.connect("slinkp/is_it_a_cat");
                 console.log("Gradio client created:", app);
+                
+                // Try to log available endpoints for debugging only
+                try {
+                    console.log("Checking available endpoints during initialization...");
+                    const endpoints = await app.endpoints();
+                    console.log("Available endpoints:", endpoints);
+                    
+                    // Just log if predict_1 is available
+                    if (endpoints.includes("/predict_1")) {
+                        console.log("predict_1 endpoint is available");
+                        statusMessage.textContent = "Ready! Upload an image to classify as bird, bass, guitar, kitten, or puppy.";
+                    } else {
+                        console.warn("Warning: predict_1 endpoint not found in available endpoints");
+                        statusMessage.textContent = "Ready! Upload an image to classify. (Note: The five-way classifier endpoint may not be available)";
+                    }
+                } catch (endpointErr) {
+                    console.warn("Could not check endpoints during initialization:", endpointErr);
+                    statusMessage.textContent = "Ready! Upload an image to classify. (Note: Could not verify available endpoints)";
+                }
                 
                 // Enable UI components once connected
                 dropArea.classList.remove('disabled');
                 uploadButton.disabled = false;
                 fileUpload.disabled = false;
-                statusMessage.textContent = "Ready! Upload an image or drag & drop.";
                 initLoading.style.display = 'none';
                 
                 console.log("App initialization complete");
             } catch (err) {
                 console.error("Error initializing app:", err);
+                console.error("Error name:", err.name);
+                console.error("Error message:", err.message);
+                console.error("Error stack:", err.stack);
                 statusMessage.textContent = "Error connecting to the classifier. Please refresh the page to try again.";
                 statusMessage.style.color = "#e74c3c";
                 showError(`Failed to initialize the app: ${err.message}`, err);
