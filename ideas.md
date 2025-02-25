@@ -8,7 +8,12 @@ can i get good control data prediction (maybe OSC) out of
 
 If I can't do realtime this project is dead
 
+*If this is solved already I'd rather use something that just works than build it*
+though it might be fun to timebox a minimal proof of concept
+
 what's on huggingface?
+what exists that's not AI?
+
 
 challenges:
 - inexact tuning
