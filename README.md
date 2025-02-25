@@ -411,13 +411,21 @@ General approach:
 Start with the smallest/fastest available model (eg resnet18 for image
 classification). Iterate on *other* stuff (data cleaning, etc) until happy.
 
-Beginner mistake: trying bigger models before you've done that!
+**Common Beginner mistake**: trying bigger models before you've done that!
 
 Only then consider bigger models.
 If possible look at something like the benchmark graphs in
 https://www.kaggle.com/code/jhoward/which-image-models-are-best/
 ... left is faster, up is more accurate.
 
-Ask "do i need it faster? do i need more accuracy?"
+Then ask "do i need it faster? do i need more accuracy?"
 Pick something that has the target performance you want and try it!
 
+**Common industry mistake**: wait too long to train a model at all.
+Train something on day 1 with whatever data you can get your hands on.
+
+You might find you get good results with little effort and none of your fancy
+ideas are needed.  OR you might find you get no accuracy at all and your
+project is impossible.
+
+left off here: matrix multiplication https://www.youtube.com/watch?v=hBBOjCiFcuo&t=3614s
