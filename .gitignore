@@ -1,3 +1,6 @@
 .envrc
 *.ipynb_checkpoints/
 *.gradio
+lessons/bass_or_not
+lessons/guitar.jpg
+lessons/bass.jpg
