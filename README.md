@@ -276,8 +276,22 @@ This is the dog / cat classifier example from lesson 2:
 
 https://huggingface.co/spaces/slinkp/is_it_a_cat
 
+Deploying it could use automating - I currently manually copy
+`lessons/deployable_is_it_a_cat.py`
+into a separate repo, rename it `app.py`, add the pickle files it needs, and
+push that repo to huggingface.
+
 I built a simple web app against its API (well, cursor did a lot of it for me)
 and deployed it here:
 
 https://slinkp.com/static/is_it_a_cat.html
 
+
+#### App iteration: five-way classifier
+
+I updated my lesson 1 classifer: it's now a five-way classifier for bird,
+kitten, puppy, guitar, bass. With some data cleaning as per lesson 2.
+And updated https://huggingface.co/spaces/slinkp/is_it_a_cat to support both
+as a tabbed UI.
+
+Next need to update the web app to support both as well.
