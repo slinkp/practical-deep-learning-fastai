@@ -331,3 +331,22 @@ And I've updated the [web app](https://slinkp.com/static/is_it_a_cat.html) to us
 TIL that apparently when you expose multiple learners in a huggingface app, it will
 conveniently name the endpoints like "/predict", "/predict_1", et al.
 Don't know if there's a way to control those.
+
+As noted above, i got training working locally on the mac - the current version
+of `is_it_a_bird.ipynb` was run locally.
+Note that I had to `export PYTORCH_ENABLE_MPS_FALLBACK=1` before running
+`jupyter notebook` to do that;
+not sure if the trainer would work, but
+`batch_tfms=aug_transforms()` does not so I didn't get that far.
+I'm curious if it would work without `aug_transforms`; that didn't seem to
+improve my accuracy at all anyway.
+
+### Questions to follow up
+
+- [ ] Is there a safer way to export/load than pickle?
+- [ ] Can I control the name of the endpoint in a huggingface app?
+- [ ] Can I name my huggingface app something other than `app.py`?
+- [ ] Is it possible to build my dataloaders *without* GPU and then fine-tune
+      *with* GPU? So I can `DataBlock(...batch_tfms=aug_transforms())`
+      but still get fast training.
+
