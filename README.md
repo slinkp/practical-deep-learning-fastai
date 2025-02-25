@@ -294,4 +294,8 @@ kitten, puppy, guitar, bass. With some data cleaning as per lesson 2.
 And updated https://huggingface.co/spaces/slinkp/is_it_a_cat to support both
 as a tabbed UI.
 
-Next need to update the web app to support both as well.
+And I've updated the web app to use the 5-way classifier.
+
+TIL that apparently when you expose multiple learners in a huggingface app, it will
+conveniently name the endpoints like "/predict", "/predict_1", et al.
+Don't know if there's a way to control those.
