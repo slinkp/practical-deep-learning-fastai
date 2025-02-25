@@ -276,3 +276,8 @@ This is the dog / cat classifier example from lesson 2:
 
 https://huggingface.co/spaces/slinkp/is_it_a_cat
 
+I built a simple web app against its API (well, cursor did a lot of it for me)
+and deployed it here:
+
+https://slinkp.com/static/is_it_a_cat.html
+
