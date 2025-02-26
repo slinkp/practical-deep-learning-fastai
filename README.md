@@ -343,9 +343,28 @@ improve my accuracy at all anyway.
 
 ### Questions to follow up
 
-- [ ] Is there a safer way to export/load than pickle?
+- [ ] Q: Is there a safer way to export/load than pickle?
+      A: There are several. You can use torch.save and torch.load, for example:
+      
+```python
+
+# To save
+torch.save(learn.model.state_dict(), 'model_compressed.pth',
+           _use_new_zipfile_serialization=True)
+
+# To load
+# If you saved just the state_dict (safer approach)
+model = YourModelClass()  # Create empty model of correct class
+model.load_state_dict(torch.load('model_comprssed.pth'))
+
+```
+
+You can also look into alternatives like ONNX format which is designed for secure model exchange.
+
+
 - [ ] Can I control the name of the endpoint in a huggingface app?
-- [ ] Can I name my huggingface app something other than `app.py`?
+- [x] Can I name my huggingface app something other than `app.py`?
+      A: Doesn't seem like it.
 - [ ] Is it possible to build my dataloaders *without* GPU and then fine-tune
       *with* GPU? So I can `DataBlock(...batch_tfms=aug_transforms())`
       but still get fast training.
@@ -368,7 +387,14 @@ TODO:
 - [x] 18:00 try `convnext*` models for my classifier; faster and better than
       `resnet*`, per that notebook. He said he chose `"convnext_base_in22ft1k"`
       but in the video we see `"convnext_tiny_in22k"`
-- [ ] Q: 18:32 what is `vision_learner(...).to_fp16()`?
+- [x] Q: 18:32 what is `vision_learner(...).to_fp16()`?
+      A: Highly recommended on GPUs. Converts most operations to use 16-bit
+      floats instead of 32. Saves a lot of GPU memory and can be 2-3x faster.
+      Exporting from fp16 can save some pickle file size too.
+
+      Also can save resources / speed during inference! learn.to_fp16() is
+      up to 2x faster inference and less memory. fp32 (default) can be slightly
+      more accurate.
 - [ ] 21:47 introspect `learn.model`
 
 Using `@interact` to find a function that fits:
@@ -434,14 +460,28 @@ project is impossible.
 
 [matrix multiplication](https://www.youtube.com/watch?v=hBBOjCiFcuo&t=3614s)
 
-- [ ] https://matrixmultiplication.xyz/ - matrix multiplication visualizer -
+- [x] https://matrixmultiplication.xyz/ - matrix multiplication visualizer -
       "this is all the linear algebra you need for deep learning"
       - it allows you to do a whole lot of RELU functions in one go
       - except for the "set negative to zero" part
+
 - [ ] From the chat re lesson 3: [video on back propagation
       math](https://www.youtube.com/watch?v=Ilg3gGewQ5U) (12 min)
 
 
-Glossed over in the "deep learning in excel" demo:
-WHY do we have a column of all ones?
+- [ ] Glossed over in the "deep learning in excel" demo: WHY do we have a column of all ones?
 
+
+
+## Things I've noticed for 2/26 study group meeting
+
+Why does this have worse error rates the second time?
+```python
+
+learn = vision_learner(dls, resnet18, metrics=error_rate)
+learn.fine_tune()
+del(learn)
+learn = vision_learner(dls, resnet18, metrics=error_rate)
+learn.fine_tune()
+
+```
