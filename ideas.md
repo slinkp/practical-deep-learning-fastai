@@ -42,22 +42,29 @@ But maybe they need to do things real mixes do
 Start simply and iterate:
 
 Simplest possible:
+
 - combine stems at equal volume
 
 Progressively add features and parameters:
+
 - Track level
 - Track pan
+
 Per-stem effects (add to stem, these
 should be expected as part of stem output)
+
 - Track EQ
 - track compression
 - track effects
 - track muting
+
 Mix effects
+
 - reverb/delay buses, possibly multiple
 - mix bus compression
 - for these we probably want to add to stems
   by recording a mix with other stems muted
+
 Automation: evolve parameters during mix
 
 ## Data Augmentation 
