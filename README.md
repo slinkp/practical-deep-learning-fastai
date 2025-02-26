@@ -362,8 +362,12 @@ comfortable with terminal. I'm a terminal guy.
 
 Good idea: Use one notebook for training, another for building an app / deploying.
 
-- [ ] TODO: read [which image models are best](https://www.kaggle.com/code/jhoward/which-image-models-are-best/)
-- [ ] TODO: 18:00 try `convnext*` models for my classifier; faster and better than `resnet*`, per that notebook
+TODO:
+
+- [x] read [which image models are best](https://www.kaggle.com/code/jhoward/which-image-models-are-best/)
+- [x] 18:00 try `convnext*` models for my classifier; faster and better than
+      `resnet*`, per that notebook. He said he chose `"convnext_base_in22ft1k"`
+      but in the video we see `"convnext_tiny_in22k"`
 - [ ] Q: 18:32 what is `vision_learner(...).to_fp16()`?
 - [ ] 21:47 introspect `learn.model`
 
@@ -428,4 +432,16 @@ You might find you get good results with little effort and none of your fancy
 ideas are needed.  OR you might find you get no accuracy at all and your
 project is impossible.
 
-left off here: matrix multiplication https://www.youtube.com/watch?v=hBBOjCiFcuo&t=3614s
+[matrix multiplication](https://www.youtube.com/watch?v=hBBOjCiFcuo&t=3614s)
+
+- [ ] https://matrixmultiplication.xyz/ - matrix multiplication visualizer -
+      "this is all the linear algebra you need for deep learning"
+      - it allows you to do a whole lot of RELU functions in one go
+      - except for the "set negative to zero" part
+- [ ] From the chat re lesson 3: [video on back propagation
+      math](https://www.youtube.com/watch?v=Ilg3gGewQ5U) (12 min)
+
+
+Glossed over in the "deep learning in excel" demo:
+WHY do we have a column of all ones?
+
