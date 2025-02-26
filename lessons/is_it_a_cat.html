@@ -668,18 +668,18 @@
             let commentary = "";
             
             
-            if (winningProb > 0.9999) {
+            if (winningProb > 0.99) {
                 commentary = `That's a ${winningLabel} for sure.`;
                 winningLabel = `It's a ${winningLabel}!`;
-            } else if (winningProb > 0.995) {
+            } else if (winningProb > 0.98) {
                 commentary = `That's a ${winningLabel}! Though there's a ${(secondHighestProb * 100).toFixed(2)}% chance I might be mistaken.`;
                 winningLabel = `Probably a ${winningLabel}!`;
-            } else if (winningProb > 0.98) {
-                commentary = `I think it's a ${winningLabel}? But I'm not 100% sure.`;
+            } else if (winningProb > 0.9) {
+                commentary = `I think it's a ${winningLabel}? But I'm not sure.`;
                 winningLabel = `${winningLabel}?`;
             } else {
                 winningLabel = `No idea.`;
-                commentary = `I really don't know. Bird: ${(birdProb * 100).toFixed(2)}%, Bass: ${(bassProb * 100).toFixed(2)}%, Guitar: ${(guitarProb * 100).toFixed(2)}%, Kitten: ${(kittenProb * 100).toFixed(2)}%, Puppy: ${(puppyProb * 100).toFixed(2)}%. Is it even one of these things?`;
+                commentary = `I really don't know. Is it even one of these things?`;
             }
             
             // Display special messages for very close calls
@@ -735,7 +735,7 @@
                     }
                 } catch (endpointErr) {
                     console.warn("Could not check endpoints during initialization:", endpointErr);
-                    statusMessage.textContent = "Ready! Upload an image to classify. (Note: Could not verify available endpoints)";
+                    statusMessage.textContent = "Ready! Upload an image to classify.";
                 }
                 
                 // Enable UI components once connected
