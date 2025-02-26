@@ -475,7 +475,7 @@ project is impossible.
 
 ## Things I've noticed for 2/26 study group meeting
 
-Why does this have worse error rates the second time?
+Q: Why does this have worse error rates the second time?
 ```python
 
 learn = vision_learner(dls, resnet18, metrics=error_rate)
@@ -483,5 +483,32 @@ learn.fine_tune()
 del(learn)
 learn = vision_learner(dls, resnet18, metrics=error_rate)
 learn.fine_tune()
+
+```
+
+A: cacheing and/or reusing memory from the first run in the GPU!
+I asked about this in a chat i had going with Claude about questions
+that came up in lessons 1-3.  Output [here](claude_chat_lessons_1-3.md)
+
+Recommended recipe when redoing training in the same process
+(eg re-running notebook cells):
+
+```python
+# Full cleanup between runs
+import gc
+
+# Delete learn first (since it references the dataloaders)
+del learn 
+
+# Delete dataloaders
+del dls  # or whatever your dataloader variable is named
+
+# Force garbage collection and clear CUDA cache
+gc.collect()
+torch.cuda.empty_cache()
+
+# Now recreate everything
+dls = ... # Recreate your dataloaders
+learn = vision_learner(dls, ...)
 
 ```
