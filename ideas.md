@@ -1,3 +1,88 @@
+# Audio Track Separation
+
+Moises in a day?
+
+Tbd what models are available.
+
+## Training approach:
+
+- start with actual stems.
+- create mixes of those stems
+- put mixes in an input directory
+- put stems in an output directory
+- train the model until it can recreate 
+  the source stems given a mix
+
+
+
+## Training data:
+
+- start with what I have
+  - look at my Ardour projects
+- search for open source stems
+  - what licenses are suitable?
+- Make a few at home?
+  - guitar / bass / vocal / percussion jam
+  - add drum loops
+  - add synth?
+  - use open source stems for instr I don't have
+    and play along w them
+- purchase Rock Band games or equivalent 
+  - script the extraction of stems
+
+## Creating mixes
+
+Automate this with Ecasound or similar
+Choose a scriptable engine with these capabilities.
+
+The mixes probably don't have to be GOOD
+
+But maybe they need to do things real mixes do
+
+Start simply and iterate:
+
+Simplest possible:
+
+- combine stems at equal volume
+
+Progressively add features and parameters:
+
+- Track level
+- Track pan
+
+Per-stem effects (add to stem, these
+should be expected as part of stem output)
+
+- Track EQ
+- track compression
+- track effects
+- track muting
+
+Mix effects
+
+- reverb/delay buses, possibly multiple
+- mix bus compression
+- for these we probably want to add to stems
+  by recording a mix with other stems muted
+
+Automation: evolve parameters during mix
+
+## Data Augmentation 
+
+We can do the equivalent of Random Resized Crop
+by:
+- resampling so pitch/time changes by x %
+- choosing an arbitrary section if desired length
+
+Just apply that to both the stems and the mix.
+
+We can create N different mixes from a set of
+stems by
+randomizing N sets of parameters
+
+
+
+
 # Music improv partner agent
 
 ## First: can i find/fine-tune/train a model with pitch recognition?
