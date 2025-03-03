@@ -465,8 +465,6 @@ project is impossible.
       - it allows you to do a whole lot of RELU functions in one go
       - except for the "set negative to zero" part
 
-- [ ] From the chat re lesson 3: [video on back propagation
-      math](https://www.youtube.com/watch?v=Ilg3gGewQ5U) (12 min)
 
 
 - [ ] Glossed over in the "deep learning in excel" demo: WHY do we have a column of all ones?
@@ -558,3 +556,28 @@ g(x) = 7 - 8x [3, 10]
 
 Worked through some of the other exercises and videos...
 Achievement unlocked, i get the concept of limits and derivatives. Yay.
+
+### Back to chapter 4 ...
+
+I'm actually doing the chapter 4 notebook, contrary to my earlier plan to skip
+those. Running it locally via `jupyter notebook` and it's working fine.
+
+#### Broadcasting
+
+I might have to review this a few times to grok it.
+But basically, if you add two tensors of different shapes, pytorch will
+expand the smaller one to be the same size as the larger.
+
+
+### Gradient Descent
+
+This is a good one to review several times!
+It's the key to training.
+
+- [ ] From the chat re lesson 3: [video on back propagation
+      math](https://www.youtube.com/watch?v=Ilg3gGewQ5U) (12 min)
+      ... book says this will be covered in a later chapter.
+
+- [ ] TODO: fix the broken images in ch 4.  Maybe copy/pasting the chapters
+      wasn't the best strategy :D ... I could possibly make a git subtree
+      and then replace chapters so far with my updates.
