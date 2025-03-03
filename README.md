@@ -408,13 +408,13 @@ you could try parameters in a loop. But that's slow.
 Better: calculate the derivative!
 That's a function that tells you how to change the parameters to make the loss better.
 
-- [ ] TODO: learn about derivatives. Eg khan academy!
+- [x] TODO: learn about derivatives. Eg khan academy!
 
-Pytorch can do it for you!
+Pytorch can calculate a derivative for you!
 
 What's a tensor? A: Everything in pytorch is a tensor. Basically an N-dimensional array.
 
-#### Gradient descent!
+### Gradient descent!
 
 This basically just optimizes function parameters to minimize the loss
 function by following the derivative in a loop.
@@ -473,7 +473,7 @@ project is impossible.
 
 
 
-## Things I've noticed for 2/26 study group meeting
+## Things I've noticed for 2/26 study group meeting (lesson 3)
 
 Q: Why does this have worse error rates the second time?
 ```python
@@ -512,3 +512,49 @@ dls = ... # Recreate your dataloaders
 learn = vision_learner(dls, ...)
 
 ```
+
+- [ ] TODO: post this in the fastai course forums. Maybe someone else noticed
+      it or has a better explanation. And/or it could be added to the course notebooks.
+
+### Calculus, oh boy
+
+I never took calculus in high school. Yep.
+
+Reading the book chapter, it says:
+
+> You may remember from your high school calculus class that the derivative of a function tells you how much a change in its parameters will change its result. If not, don't worry, lots of us forget calculus once high school is behind us! But you will have to have some intuitive understanding of what a derivative is before you continue, so if this is all very fuzzy in your head, head over to Khan Academy and complete the lessons on [basic derivatives](https://www.khanacademy.org/math/differential-calculus/dc-diff-intro). You won't have to know how to calculate them yourselves, you just have to know what a derivative is.
+
+Ok so I go to the linked lesson. And - whoops - they're talking about limits.
+I have heard of limits. What are they again?
+All I remember is that "the limit does not exist" won the math competion in _Mean Girls_.
+
+So i backtrack to [differential calculus unit 1 limits and continuity](https://www.khanacademy.org/math/differential-calculus/dc-limits)
+... watched the video, read the article, did the quiz... ok i think that's
+enough!
+Back to unit 2... finish the video on newton, leibniz, and bolt... ok that's
+clear...
+and now to the "derivative as a concept" video.
+
+Liebniz notation for the slope of a curve at a point:
+`dy / dx`- the change in y over the change in x for infinitesimally small
+changes in x and y at that point.
+And that equals the **slope of the tangent line at that point**.
+
+```
+f(x) = x**2 + 5x  [1, 5]
+1 + 5 = 6
+25 + 25 = 50
+
+(50 - 6) / (5 -1) = 44 / 4 = 11
+
+
+
+f(x) = 0.5 ** -x [1, 5]
+(32.0 - 2.0) / (5 - 1) = 30 / 4 = 15 / 2
+
+g(x) = 7 - 8x [3, 10]
+((7 - 80) - (7 - 24)) / (10 - 3) = (-73 - -17) / 7 = -56 / 7 = -8
+```
+
+Worked through some of the other exercises and videos...
+Achievement unlocked, i get the concept of limits and derivatives. Yay.
