@@ -5,6 +5,23 @@
 
 # Lesson Notes
 
+## Notes on my lesson process
+
+I start by watchin the lesson video.
+
+When there are Kaggle notebooks linked from the lesson overview page,
+I do this in Kaggle:
+- Make a copy via "Copy and Edit"
+- File -> Link to Github
+- Immediately do a quick save, call it "Initial copy",
+  and commit that to github in the `lessons/` directory.
+  I add the lesson number as a prefix.
+  For example, here's a screenshot of saving the initial copy of lesson 3:
+
+![screenshot of saving initial copy of lesson 3](saving_kaggle_to_github_screenshot.png)
+
+Then I periodically save my work in Kaggle and commit it to github.
+
 ## Notes on lessons 1 (Getting Started) and 2 (Production)
 
 ### Installing fastbook / fastai on a Macbook Air M1 (2020)
