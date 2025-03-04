@@ -598,3 +598,10 @@ SGD = Stochastic Gradient Descent
 
 ## Lesson 4: NLP
 
+Book (chapter 10) will do NLP via recurrent neural networks in fastai (RNNs).
+Video will do it via transformers, and *not* using the fastai library.
+Instead huggingface transformers with a pretrained model.
+
+### Video notes
+
+
