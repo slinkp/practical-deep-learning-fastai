@@ -622,3 +622,18 @@ Instead huggingface transformers with a pretrained model.
 ### Video notes
 
 
+[Key libraries for data science and ML in python](https://youtu.be/toUgBQv1BT8?t=1500):
+
+* Numpy - numerical programming
+* matplotlib - plotting
+* pandas - tables of data
+* pytorch - deep learning
+
+Recommended book: "Python for Data Analysis" by Wes McKinney covers all of those
+(open edition available for free [here](https://wesmckinney.com/book))
+
+That's pretty essential to doing this ML work.
+Don't skip learning those!
+
+Left off here: Tokenization https://youtu.be/toUgBQv1BT8?t=1780
+
