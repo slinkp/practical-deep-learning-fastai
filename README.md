@@ -581,3 +581,20 @@ It's the key to training.
 - [ ] TODO: fix the broken images in ch 4.  Maybe copy/pasting the chapters
       wasn't the best strategy :D ... I could possibly make a git subtree
       and then replace chapters so far with my updates.
+
+
+SGD = Stochastic Gradient Descent
+
+
+### Lesson 3 / Ch 4 Wrap-up
+
+> *  Activations:: Numbers that are calculated (both by linear and nonlinear layers)
+> *  Parameters:: Numbers that are randomly initialized, and optimized (that is, the numbers that define the model)
+
+> "We will often talk in this book about activations and parameters. Remember that they have very specific meanings. They are numbers. They are not abstract concepts, but they are actual specific numbers that are in your model. Part of becoming a good deep learning practitioner is getting used to the idea of actually looking at your activations and parameters, and plotting them and testing whether they are behaving correctly."
+
+- [ ] TODO: review the questions in ch 4 notebook
+
+
+## Lesson 4: NLP
+
