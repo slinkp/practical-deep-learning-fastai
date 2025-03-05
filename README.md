@@ -683,3 +683,18 @@ section. (Minor python formatting tweaks for readability)
 [here](https://www.kaggle.com/code/slinkp/getting-started-with-nlp-for-absolute-beginners/edit)
 
 
+### Lesson 4 NLP Book: Chapter 10
+
+For this one i'm trying a new strategy - 
+added the entire fastbook repo as a subtree.
+I forked it on my github, then did:
+
+`git subtree add --prefix fastbook https://github.com/slinkp/fastbook.git master`
+
+Now i can just navigate in locally-running jupyter to http://localhost:8888/notebooks/fastbook/10_nlp.ipynb
+and images etc all work fine.
+
+- [ ] TODO - update previous chapters with my changes, then remove the
+      redundant manual copies.
+
+
