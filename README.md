@@ -635,5 +635,51 @@ Recommended book: "Python for Data Analysis" by Wes McKinney covers all of those
 That's pretty essential to doing this ML work.
 Don't skip learning those!
 
-Left off here: Tokenization https://youtu.be/toUgBQv1BT8?t=1780
+### Tokenization
+
+This is the first time I understood the hand-wavy aspect of "we turn text into
+numbers and then do math on them".
+As with a lot of this stuff, it sounds more complicated than it is.
+
+### Having all 3 of Training / validation / test data is the most important thing in ML!!
+
+> "Possibly the most important idea in machine learning is that of having separate training, validation, and test data sets."
+
+#### Overfitting
+
+"In the real world, you often don't know if you're overfitting, you're just
+silently destroying value for your organization ... it's a good idea to do some
+kaggle competitions to get a sense of overfitting, you really don't get that
+until you screw it up a few times."
+[video](https://youtu.be/toUgBQv1BT8?t=3211)
+
+#### The risks of metrics
+
+AI training is so good at optimizing for metrics that it's extremely easy to
+roll out something that's trained on the wrong thing.
+In real life, there isn't one metric that tells you you're on the right track,
+and it's difficult to measure everything that matters - and too tempting to
+pick the one metric that's easy to measure.
+[video](https://youtu.be/toUgBQv1BT8?t=3687)
+
+Also remember: the loss function is usually not the same thing as the metric
+you care about!
+
+#### Outliers
+
+These are tricky to handle: in the real world you *have to*. While initially
+developing a model you may want to ignore them, because they can skew your
+metrics and make it hard to see if you're handling the bulk of the data well.
+But then you have to work with them. May need to classify them differently
+somehow.  "The biggest insights I've had in my career have come from digging
+into outliers."
+[video](https://www.youtube.com/watch?v=toUgBQv1BT8&t=4760s)
+
+
+### Kaggle notebook - example of patent classification
+
+This one was quick and easy. I just forked the notebook and ran it section by
+section. (Minor python formatting tweaks for readability)
+[here](https://www.kaggle.com/code/slinkp/getting-started-with-nlp-for-absolute-beginners/edit)
+
 
