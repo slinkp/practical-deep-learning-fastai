@@ -698,3 +698,47 @@ and images etc all work fine.
       redundant manual copies.
 
 
+
+### Lesson 5: Create a Random Forest From Scratch
+
+#### Book chapter 9
+
+Kaggle issue: File -> Import from github doesn't seem to work. I end up with an
+empty notebook.
+I had to manually upload the file from my local drive, then do a quick save and
+type the full path `fastbook/09_tabular.ipynb`
+
+*One-hot encoding* is not a typo for "one-shot"
+It basically means each token is encoded as a vector of bits of length N
+where N is the total number of tokens, and only a single bit is set for each
+token.  This could use a lot of bits per token, but it prevents the model from
+assuming the numbers "mean" something, eg that integer token 124 is "greater than"
+integer token 123.  "Works well with neural networks" says claude.
+
+Maybe reading this chapter is premature.
+I started because it's linked from the lesson page, but there's a fair amount
+of "As we saw in the last chapter..." which we haven't looked at yet.
+
+#### Most ML problems can best be solved by one of two approaches
+
+1. Layered NN's trained with SGD (deep or shallow learning) - good for
+   unstructured data (natural language, audio, image, video)
+2. "Ensembles of decision trees" - mainly for structured data eg database
+   tables
+   
+They give similar results for strutured data BUT the decision tree approach
+doesn't need GPUs, is fast to train, and there's a lot of good tools and techniques for
+answering typical questions about the data.
+
+**Kaggle old competition snag**
+You can't accept rules directly on old competitions.
+Workaround: click on one of the data files (not the first thing in the data tree), _then_ a popup appears allowing you
+to join the competition and accept.
+
+**Security footgun**
+
+The book asks you to copy/paste your Kaggle API key into a notebook.
+I had to remember to manually wipe it out before saving the notebook to github.
+Yuck.
+
+
