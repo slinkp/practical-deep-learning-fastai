@@ -685,6 +685,8 @@ section. (Minor python formatting tweaks for readability)
 
 ### Lesson 4 NLP Book: Chapter 10
 
+#### Process tweak note
+
 For this one i'm trying a new strategy - 
 added the entire fastbook repo as a subtree.
 I forked it on my github, then did:
@@ -706,6 +708,82 @@ automatically makes on import (there are some, probably just reformatting and me
 - [ ] TODO - update previous chapters with my changes, then remove the
       redundant manual copies.
 
+#### ULMFit and Transfer Learning
+
+"Transfer learning": using a model trained on one task (eg NLP / text
+prediction) to do well on another task (eg classification, analysis, etc).
+
+"Universal Language Model Fine-tuning"
+
+Very simple idea! Great for transfer learning in NLP.
+
+- Start with a pretrained language model (eg trained on wikipedia)
+- Fine-tune it on your specific dataset (eg IMDB movie reviews)
+- Use that fine-tuned model for your task (eg movie review sentiment analysis)
+
+- [ ] Question about Text Preprocessing: what does "Use this embedding matrix as the first layer of a neural network" mean?
+      Book says "The approach we took for a single categorical variable was
+      ..." so maybe this was in a prior chapter we haven't read yet.
+
+
+*Sidebar*: It's challenging to follow the recommended approach of reading the book
+chapter linked to from each lesson, because they're not in the same
+order, and the book chapters presuppose having read other chapters that
+we haven't!  Blog post?
+
+There's a lot of cool details in the "Word Tokenization" section.
+Eg: 
+> a capitalized word will be replaced with a special capitalization token, followed by the lowercase version of the word. This way, the embedding matrix only needs the lowercase versions of the words, saving compute and memory resources, but can still learn the concept of capitalization.
+
+Confusing in "Putting Our Texts into Batches for a Language Model":
+the fixed-size subarrays look to be matrixes. I'm not clear how the batches are
+used.
+Why is it helpful to divide up the data the way he shows?
+eg "we first feed the following array:"
+
+```
+xxbos 	xxmaj 	in 	this 	chapter
+movie 	reviews 	we 	studied 	in
+...
+```
+
+.. when in the input, the tokens in the first line of this "array" aren't contiguous with the tokens in the second line?
+Very confusing.
+
+#### Note: chapter 10 training is very slow on kaggle
+
+I'm using the dual-T4 setup.
+`learn.fit_one_cycle(1, 2e-2)` took ~ 20 minutes.
+It may be worth running on colab with some paid GPU credits.
+Otherwise - plan on it being way slow.
+Especially because the next step is to run `learn.fit_one_cycle(10, 2e-3)`
+which will take roughly 10x as long, or > 3 hours!!
+
+(Claude confirmed `fit_one_cycle` is roughly linear with the first arg.
+Claude also suggested we can get some speedup by doing `learn.to_parallel()`
+before training to use both GPUs, although probably not 2x.)
+
+I may try downloading the `1epoch` pickle, copying the notebook into colab,
+doing the rest of `fit_one_cycle` there. Then decide whether to continue in
+kaggle or colab.
+
+**Very annoying side quest: downloading the result of learn.save()**
+
+It went into `/root/.fastai/data/imdb/models/`.
+I had to manually add a command to copy it to `/kaggle/working/` so I could
+download it. Wasted 15 minutes of my life googling that and figuring it out
+myself.
+It's named `1epoch.pth`.  Note this is NOT a pickle; `learn.save()` !=
+`learn.export()`.
+
+I wish i had done `export()` prior to messing with trying to enable GPUs
+because i think learn is now in a bad state.
+So i'll have to re-run all the setup prior to training :-(
+
+
+
+
+# LEFT OFF HERE
 
 
 ### Lesson 5: Create a Random Forest From Scratch
