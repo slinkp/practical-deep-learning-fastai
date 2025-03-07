@@ -693,6 +693,15 @@ I forked it on my github, then did:
 
 Now i can just navigate in locally-running jupyter to http://localhost:8888/notebooks/fastbook/10_nlp.ipynb
 and images etc all work fine.
+(I can also read it with images in my repo on github.)
+
+For running it remotely though (eg kaggle or colab), we still have none of the static images, oh well.
+
+In Kaggle, I did "File -> Import Notebook -> Github", navigate to my repo,
+navigate to fastbook/10_nlp.ipynb, and import it.
+(Sometimes this works, sometimes doesn't.)
+Then immediately do a "quick save" and commit to get any changes that kaggle
+automatically makes on import (there are some, probably just reformatting and metadata?)
 
 - [ ] TODO - update previous chapters with my changes, then remove the
       redundant manual copies.
@@ -702,6 +711,10 @@ and images etc all work fine.
 ### Lesson 5: Create a Random Forest From Scratch
 
 #### Book chapter 9
+
+I got ahead of myself here and accidentally started this chapter before
+watching the lesson 5 video (because obviously one reads chapter 9 before 10,
+right?)
 
 Kaggle issue: File -> Import from github doesn't seem to work. I end up with an
 empty notebook.
@@ -737,7 +750,7 @@ to join the competition and accept.
 
 **Security footgun**
 
-The book asks you to copy/paste your Kaggle API key into a notebook.
+The book chapter 9 asks you to copy/paste your Kaggle API key into a notebook.
 I had to remember to manually wipe it out before saving the notebook to github.
 Yuck.
 
