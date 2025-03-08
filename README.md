@@ -685,6 +685,11 @@ section. (Minor python formatting tweaks for readability)
 
 ### Lesson 4 NLP Book: Chapter 10
 
+**Sidebar**: I wish the book would warn you when midway through a chapter it's
+going to ask you to do something that takes significant GPU time:
+as a first time reader, you have no idea whether that's going to be 3
+minutes or literally 3 hours, and that makes it hard to plan your study time!
+
 #### Process tweak note
 
 For this one i'm trying a new strategy - 
@@ -750,41 +755,64 @@ movie 	reviews 	we 	studied 	in
 .. when in the input, the tokens in the first line of this "array" aren't contiguous with the tokens in the second line?
 Very confusing.
 
-#### Note: chapter 10 training is very slow on kaggle
+#### Note: chapter 10 training is very slow on kaggle; fast on an A100
 
-I'm using the dual-T4 setup.
-`learn.fit_one_cycle(1, 2e-2)` took ~ 20 minutes.
+I'm using the dual-T4 setup on kaggle - the fastest free option.
+`learn.fit_one_cycle(1, 2e-2)` took ~ 22 minutes.
 It may be worth running on colab with some paid GPU credits.
 Otherwise - plan on it being way slow.
 Especially because the next step is to run `learn.fit_one_cycle(10, 2e-3)`
-which will take roughly 10x as long, or > 3 hours!!
+which will take roughly 10x as long, or ~ 3.5 hours on kaggle.
+
+**(Answer: it took 10 minuts on an A100 in colab!)**
+So plan on ~ 100 minutes on colab for the 10-epoch run.
 
 (Claude confirmed `fit_one_cycle` is roughly linear with the first arg.
 Claude also suggested we can get some speedup by doing `learn.to_parallel()`
-before training to use both GPUs, although probably not 2x.)
-
-I may try downloading the `1epoch` pickle, copying the notebook into colab,
-doing the rest of `fit_one_cycle` there. Then decide whether to continue in
-kaggle or colab.
+before training to use both GPUs on kaggle, although probably not 2x - and in fact
+this turned out not to be a valid option for this model, nor was Claude's followup
+suggestion... I put notes in my copy of chapter 10 about that.)
 
 **Very annoying side quest: downloading the result of learn.save()**
 
 It went into `/root/.fastai/data/imdb/models/`.
-I had to manually add a command to copy it to `/kaggle/working/` so I could
+On Kaggle, I had to manually add a command to copy it to `/kaggle/working/` so I could
 download it. Wasted 15 minutes of my life googling that and figuring it out
 myself.
 It's named `1epoch.pth`.  Note this is NOT a pickle; `learn.save()` !=
 `learn.export()`.
 
 I wish i had done `export()` prior to messing with trying to enable GPUs
-because i think learn is now in a bad state.
-So i'll have to re-run all the setup prior to training :-(
+because i think learn is now in a bad state?
 
+I ended up having to re-run all the setup on colab, and didn't bother
+loading `1epoch.pth` because it was only one epoch and i wanted to see how fast
+the A100 was anyway. (Answer: about 9 minutes per epoch, vs 22 on kaggle)
 
+On colab, you can use the file explorer to find your saved data;
+you have to enable hidden files -
+then navigate to `/root/.fastai/data/imdb/models/` and both .pkl and .pth files
+should go there.
 
+Also - I wish the book had shown an example of actually classifying reviews!!
+What fun is building a thing and then never use it beyond reporting its accuracy?
+I added this:
 
-# LEFT OFF HERE
-
+```python
+TEXTS = (
+    "OMG unwatchable trash, avoid at all costs.",
+    "wow the best film I've seen in ages",
+    "incredible epic plot with great effects but terrible acting and cringe dialogue.")
+predictions = [learn.predict(text) for text in TEXTS]
+import pprint
+pprint.pprint(predictions)
+```
+Output:
+```
+[('neg', tensor(0), tensor([1.0000e+00, 4.3569e-06])),
+ ('pos', tensor(1), tensor([1.7331e-06, 1.0000e+00])),
+ ('pos', tensor(1), tensor([0.1264, 0.8736]))]
+```
 
 ### Lesson 5: Create a Random Forest From Scratch
 
