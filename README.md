@@ -814,7 +814,56 @@ Output:
  ('pos', tensor(1), tensor([0.1264, 0.8736]))]
 ```
 
-### Lesson 5: Create a Random Forest From Scratch
+### Lesson 5: From-Scratch Model
+
+#### Video notes
+https://www.youtube.com/watch?v=_rXzeWq4C6w
+
+"Imputing values" - filling in missing values in a dataset.
+Lots of ways to do this w/o discarding data.
+*Usually* it's sufficient to take the mode (most common value) of a column.
+- "it doesn't usually make much difference" so not worth doing more complex
+  things.
+
+Jargon: 
+**Rank** - the number of dimensions in a tensor.
+
+Tip: Don't seed random numbers UNLESS you're trying to reproduce a result
+for eg teaching or presentations. In real world it's good to get a feel for
+variation from run to run!
+
+**Ensembling** - combining multiple models to get better results.
+
+[How random forests really work - and why you should use them](https://youtu.be/_rXzeWq4C6w?t=5230)
+
+They are "very hard to screw up" - unlike "simpler" techniques
+
+See the notebook about this.
+
+**1R**: the simplest possible binary split model: a single split
+Sometimes this is a good place to start before assuming you need something better!
+
+#### Notebook:  Linear model and neural net from scratch
+
+*Suggestion from video* [here](https://youtu.be/_rXzeWq4C6w?t=4338): 
+Break down the functions (especially in the Deep Learning part of the notebook)
+into separate cells and play with each by hand to understand them.
+It's hard (impossible?) to understand the code by just reading it.
+
+My kaggle is here:
+https://www.kaggle.com/code/slinkp/lesson-5-linear-model-and-neural-net-from-scratch/edit
+
+I scanned through it and since there's so little data I'm guessing it'll be
+fine to run on kaggle, no need for colab.
+... Yup confirmed, ran all cells in nearly no time with no acceleraor.
+I may just run locally.
+
+#### Notebook: Why use a framework
+
+There's some good examples of pandas functions in here - 
+see the feature engineering part.
+
+#### Notebook: How random forests really work
 
 #### Book chapter 9
 
