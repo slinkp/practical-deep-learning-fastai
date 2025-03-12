@@ -858,6 +858,36 @@ fine to run on kaggle, no need for colab.
 ... Yup confirmed, ran all cells in nearly no time with no acceleraor.
 I may just run locally.
 
+Locally it gets an error that doesn't happen in Kaggle?? WHy?
+
+```python
+indep_cols = ['Age', 'SibSp', 'Parch', 'LogFare'] + added_cols
+
+t_indep = tensor(df[indep_cols].values, dtype=torch.float)
+t_indep
+```
+```console
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+Cell In[38], line 3
+      1 indep_cols = ['Age', 'SibSp', 'Parch', 'LogFare'] + added_cols
+----> 3 t_indep = tensor(df[indep_cols].values, dtype=torch.float)
+      4 t_indep
+
+TypeError: can't convert np.ndarray of type numpy.object_. The only supported types are: float64, float32, float16, complex64, complex128, int64, int32, int16, int8, uint64, uint32, uint16, uint8, and bool.
+```
+
+Likely this is a behavior change in an underlying library?
+Yep, locally i have pandas 2.1.1 and in kaggle it's 1.3.5.
+
+Here's the fix, a few cells up:
+```python
+# Fix: we need to ensure all our independent columns are the same type.
+# these would default to bool in pandas 2.1
+df = pd.get_dummies(df, columns=["Sex", "Pclass", "Embarked"], dtype=float)
+```
+
+
 #### Notebook: Why use a framework
 
 There's some good examples of pandas functions in here - 
