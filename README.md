@@ -921,6 +921,9 @@ Got up to 79% with 30 models.
 Just for kicks I tried 100 models and got no improvement at all.
 So obviously there's a point of diminishing returns.
 
+- [ ] Followup experiment. What if i try a couple different models?
+      Ensemble works best when combining models that make different predictions.
+
 #### Notebook: How random forests really work
 
 todo
