@@ -907,6 +907,12 @@ df = pd.get_dummies(df, columns=["Sex", "Pclass", "Embarked"], dtype=float)
 There's some good examples of pandas functions in here - 
 see the feature engineering part.
 
+I ran this locally, worked fine.
+Refactored some for readability, added comments on the feature engineering
+and what the data means.
+
+- [ ] Followup: How can we check the accuracy of the "ensemble" as a whole?
+
 #### Notebook: How random forests really work
 
 todo
