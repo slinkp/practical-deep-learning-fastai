@@ -913,6 +913,14 @@ and what the data means.
 
 - [ ] Followup: How can we check the accuracy of the "ensemble" as a whole?
 
+Notes on Kaggle submissions:
+My `learn.fit(16...)` got about 73% on Kaggle.
+My ensemble got about 77% with 5 models.
+Got up to 79% with 30 models.
+
+Just for kicks I tried 100 models and got no improvement at all.
+So obviously there's a point of diminishing returns.
+
 #### Notebook: How random forests really work
 
 todo
