@@ -819,7 +819,8 @@ Output:
 #### Video notes
 https://www.youtube.com/watch?v=_rXzeWq4C6w
 
-"Imputing values" - filling in missing values in a dataset.
+Jargon:
+**Imputing values** - filling in missing values in a dataset.
 Lots of ways to do this w/o discarding data.
 *Usually* it's sufficient to take the mode (most common value) of a column.
 - "it doesn't usually make much difference" so not worth doing more complex
@@ -832,16 +833,29 @@ Tip: Don't seed random numbers UNLESS you're trying to reproduce a result
 for eg teaching or presentations. In real world it's good to get a feel for
 variation from run to run!
 
+Jargon:
 **Ensembling** - combining multiple models to get better results.
 
 [How random forests really work - and why you should use them](https://youtu.be/_rXzeWq4C6w?t=5230)
 
 They are "very hard to screw up" - unlike "simpler" techniques
 
-See the notebook about this.
+See the notebook below about this.
 
 **1R**: the simplest possible binary split model: a single split
 Sometimes this is a good place to start before assuming you need something better!
+
+
+#### Study group discussion
+
+Question raised about why is sigmoid good as an output function
+but not for an activation function on the hidden layers?
+Farid wrote a NN by hand in Rust and used sigmoid for activation and it *did*
+work.
+https://github.com/proteusvacuum/rust-neural-network
+
+- [ ] Read about what makes a good activation function, and what the name means
+
 
 #### Notebook:  Linear model and neural net from scratch
 
@@ -895,6 +909,13 @@ see the feature engineering part.
 
 #### Notebook: How random forests really work
 
+todo
+
+#### Book chapter 10
+
+
+### Lesson 6: Random Forests
+
 #### Book chapter 9
 
 I got ahead of myself here and accidentally started this chapter before
@@ -906,7 +927,7 @@ empty notebook.
 I had to manually upload the file from my local drive, then do a quick save and
 type the full path `fastbook/09_tabular.ipynb`
 
-*One-hot encoding* is not a typo for "one-shot"
+Jargon: *One-hot encoding* is not a typo for "one-shot"
 It basically means each token is encoded as a vector of bits of length N
 where N is the total number of tokens, and only a single bit is set for each
 token.  This could use a lot of bits per token, but it prevents the model from
@@ -914,8 +935,10 @@ assuming the numbers "mean" something, eg that integer token 124 is "greater tha
 integer token 123.  "Works well with neural networks" says claude.
 
 Maybe reading this chapter is premature.
-I started because it's linked from the lesson page, but there's a fair amount
-of "As we saw in the last chapter..." which we haven't looked at yet.
+I started this during lesson 5 by accident (chapter 9 comes before 10 right??)
+
+There's a fair amount of "As we saw in the last chapter..." but we haven't
+covered chapter 8
 
 #### Most ML problems can best be solved by one of two approaches
 
