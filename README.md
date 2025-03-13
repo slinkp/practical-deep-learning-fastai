@@ -111,7 +111,7 @@ $
 Apparently the warning about torchaudio version mismatch is OK enough? We'll see.
 
 
-```pyshell
+```pycon
 
 >>> import torch
 >>> if not torch.backends.mps.is_available():
