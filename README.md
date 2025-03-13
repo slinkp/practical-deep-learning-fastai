@@ -278,14 +278,16 @@ We're going to need to install git-lfs first. On mac:
 brew install git-lfs
 ```
 
-Then we can enable it:
+Then we can enable it and tell it what file extensions to track:
 
 ```
 git lfs install
 git lfs track '*.pkl'
-git lfs track '*.jpg'
+git lfs track '*.pth'
+git lfs track '*.jpg' '*.jpeg'
 git lfs track '*.png'
-git lfs track '*.jpeg'
+git lfs track '*.gz' '*.tgz'
+git lfs track '*.zip'
 ```
 
 Need to do that BEFORE adding big files, or else you get:
