@@ -928,12 +928,7 @@ So obviously there's a point of diminishing returns.
 
 #### Notebook: How random forests really work
 
-todo
-
-#### Book chapter 10
-
-
-### Lesson 6: Random Forests
+Deferring this till lesson 6
 
 #### Book chapter 9
 
@@ -982,3 +977,106 @@ I had to remember to manually wipe it out before saving the notebook to github.
 Yuck.
 
 
+
+### Lesson 6: Random Forests
+
+#### Video
+
+##### Decision Trees
+
+1R classifier - binary split on one category -
+that's a pretty good baseline.
+
+What if we split those two groups (eg Male, Female) into two groups each?
+Find the single best binary split for each.
+
+Now it's a **Decision tree**!
+
+`sklearn.DecisionTreeClassifier` does that automatically
+and graphviz can automatically visualize the tree
+
+Even if you don't end up using a decision tree - it can help you understand
+what are the key driving variables.
+
+If you have an accuracy function as per the video,
+you can see that adding levels to the decision tree *should* improve it
+- with diminishing returns.
+
+eg the 1R titanic model (Predict based on sex) has accuracy 0.215.
+Generating a decision tree with 2 levels (4 leaf nodes) has accuracy 0.224
+- this is a tiny bit worse - not meaningful with a tiny validation set of 200.
+
+`DecisionTreeClassifier(min_samples_leaf=50)` means build a tree where leaf has
+at least 50 examples while getting as small as it can above 50.
+Depth is automatic (and may vary on branches)
+
+this had accuracy (mean absolute error) of 0.183 - slight better -
+on kaggle competition, scored 0.765, not that much worse than the neural nets
+from earlier chapter!
+
+##### Advantage of decision trees:
+
+Often, little to no data preprocessing - eg didn't need dummy variables
+Fast and easy to create
+
+##### Random forest concept
+
+Take a bunch of decision trees generated on
+- a random subset of rows of the training data
+- a random subset of the columns of the training data
+
+Take the mean of all of their predictions as your prediction
+
+You get randomly uncorrelated errors, which gives you a total error
+_close to zero_.
+
+`sklearn.ensemble.RandomForestClassifier()` does exactly this!
+
+Accuracy of this with 100 random trees on kaggle was similar to
+the single tree
+
+With larger data sizes they almost always beat single trees.
+
+
+#### Random forest advantages
+
+- Fast to build and run
+- *Hard to mess up*
+- Good accuracy
+- Good insights
+- Little data processing
+- Good at ignoring meaningless data (eg columns that don't predict anything)
+- Basically immune to overfit by adding trees - you just get diminishing returns
+  - you *can* overfit by letting the trees get too deep; make more of them
+    instead
+
+RF can be inspected for _which features were the most important_
+- great way to quickly find that out
+
+**Out-of-bag error**
+
+Random forests have a cool trick - since each tree was generated on a subset of
+that data, you can essentially validate it with all the rows that were *not*
+chosen for training it. Validating with those rows gives you the _out of bag error_.
+
+This also means you can build and validate a RF without holding back some data
+for a validation set!  Helps when you don't have a lot of data.
+
+**Gradient boosting** is another technique that combines multiple weak models
+to build a strong one -  https://explained.ai/gradient-boosting
+harder to understand though
+
+
+#### Notebook: How random forests really work
+
+https://www.kaggle.com/code/jhoward/how-random-forests-really-work/
+
+#### Notebook: Road to the Top, Part 1
+
+https://www.kaggle.com/code/jhoward/first-steps-road-to-the-top-part-1
+[Video walkthrough here](https://www.youtube.com/watch?v=AdhG64NF76E&t=3268s)
+
+#### Book chapter 9
+
+This was already in lesson 5!
+... still haven't finished though
