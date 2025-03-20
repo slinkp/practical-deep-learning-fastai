@@ -1064,8 +1064,27 @@ for a validation set!  Helps when you don't have a lot of data.
 
 **Gradient boosting** is another technique that combines multiple weak models
 to build a strong one -  https://explained.ai/gradient-boosting
-harder to understand though
+harder to understand though.
+This can give slightly better results than RF, with more work.
 
+#### Iteration tips for improving accuracy and speed
+
+Q: When iterating do you just evolve one notebook or make many?
+
+A: Typically, get one working - then copy it and change approach.
+So you can compare them.
+
+**Fine-tuning iteration speed tip**:
+If it looks like CPU is being used more than GPU, then you can probably switch
+to a more accurate base model without losing speed - you might as well leverage the
+GPU more!
+
+**Image inference accuracy tip**: use test-time augmentation (TTA).
+Fastai has a `Learner.tta` method for this -
+basically it means try all the different ways of resizing the _input_ image (random crop,
+pad zeroes, squish) and take the average prediction.
+This is described in "Small models: Road to the top part 2" notebook.
+Usually improves result accuracy!
 
 #### Notebook: How random forests really work
 
