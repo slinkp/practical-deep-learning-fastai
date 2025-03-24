@@ -1090,6 +1090,9 @@ Usually improves result accuracy!
 
 https://www.kaggle.com/code/jhoward/how-random-forests-really-work/
 
+This walks through much of the lesson above. Easy.
+Works fine locally or on kaggle w/o GPU.
+
 #### Notebook: Road to the Top, Part 1
 
 https://www.kaggle.com/code/jhoward/first-steps-road-to-the-top-part-1
