@@ -1130,6 +1130,49 @@ https://course.fast.ai/Lessons/lesson7.html
 
 https://www.youtube.com/watch?v=p4ZZq0736Po
 
+Picking a batch size:
+- Whatever fits in your GPU memory
+  - smaller batch size = less memory
+  - larger batch size = more GPU parallelization
+  - but smaller batch size usually can mean less accuracy
+    - see below for workaround for this!
+  - should be a power of 2
+
+What if you don't have enough RAM?
+Use [gradient accumulation](https://youtu.be/p4ZZq0736Po?t=484)
+... basically you can load in smaller batches, NOT zero out the gradients
+until you've processed as much data as the larger batch size you wanted.
+This has numerically same effect (in many models; close enough in most)
+but eats less GPU RAM.
+
+TL;DR the important thing about a GPU is its speed, not its memory,
+because you can usually work around low memory with gradient accumulation.
+
+This is walked through in "road to the top part 3" notebook
+
+
+Ensembling a bunch of different image models - cool.
+- [ ] Could i do that on my cat/dog/bass/guitar classifier?
+
+
+The "road to the top part 4" notebook "teaches a lot about how the last layer of
+a neural net works"
+https://youtu.be/p4ZZq0736Po?t=1930
+
+builds a model that does two categorizations: type of rice, and rice disease
+
+
+Cross-entropy loss: this is a loss function you can use with categorization.
+(You can't use eg mean squared error because you can't say "how close are these
+10 probabilities to this one result we want")
+https://www.youtube.com/watch?v=p4ZZq0736Po&t=2484s
+
+Also explains softmax
+
+Left off here:
+https://youtu.be/p4ZZq0736Po?t=3158
+
+
 ### Notebooks
 
 [Road to the top part 3 - my kaggle copy](https://www.kaggle.com/code/slinkp/scaling-up-road-to-the-top-part-3)
