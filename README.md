@@ -816,7 +816,7 @@ Output:
  ('pos', tensor(1), tensor([0.1264, 0.8736]))]
 ```
 
-### Lesson 5: From-Scratch Model
+## Lesson 5: From-Scratch Model
 
 #### Video notes
 https://www.youtube.com/watch?v=_rXzeWq4C6w
@@ -978,7 +978,7 @@ Yuck.
 
 
 
-### Lesson 6: Random Forests
+## Lesson 6: Random Forests
 
 #### Video
 
@@ -1086,25 +1086,64 @@ pad zeroes, squish) and take the average prediction.
 This is described in "Small models: Road to the top part 2" notebook.
 Usually improves result accuracy!
 
-#### Notebook: How random forests really work
+#### Notebooks
 
-https://www.kaggle.com/code/jhoward/how-random-forests-really-work/
+[How random forests really work - my kaggle copy](https://www.kaggle.com/code/jhoward/how-random-forests-really-work/)
 
 This walks through much of the lesson above. Easy.
 Works fine locally or on kaggle w/o GPU.
 
-#### Notebook: Road to the Top, Part 1
+[Road to the Top, Part 1 - my kaggle copy](https://www.kaggle.com/code/slinkp/first-steps-road-to-the-top-part-1/edit/run/229632109)
 
 [Video walkthrough here](https://www.youtube.com/watch?v=AdhG64NF76E&t=3268s)
 
-My copy is here:
-https://www.kaggle.com/code/slinkp/first-steps-road-to-the-top-part-1/edit/run/229632109
-
 Had to figure out a workaround to get rust installed (unclear why):
-
 https://www.kaggle.com/code/jhoward/first-steps-road-to-the-top-part-1/comments#3159485
+
+Didn't work locally; macbook m1 GPU doesn't support needed features:
+
+```
+RuntimeError: Adaptive pool MPS: input sizes must be divisible by output sizes. Non-divisible input sizes are not implemented on MPS device yet. For now, you can manually transfer tensor to cpu in this case. Please refer to [this issue](https://github.com/pytorch/pytorch/issues/96056)
+```
+
+
+
+[Road to the Top, Part 2 - my kaggle copy](https://www.kaggle.com/code/slinkp/small-models-road-to-the-top-part-2)
+
+Left off here - confirmed it runs after fixing rust dependency
+- haven't worked through it yet.
+
+Takes ~45 min to run on kaggle with GPU
 
 #### Book chapter 9
 
 This was already in lesson 5!
 ... still haven't finished though
+
+## Lesson 7: Collaborative filtering
+
+https://course.fast.ai/Lessons/lesson7.html
+
+### Video
+
+https://www.youtube.com/watch?v=p4ZZq0736Po
+
+### Notebooks
+
+[Road to the top part 3 - my kaggle copy](https://www.kaggle.com/code/slinkp/scaling-up-road-to-the-top-part-3)
+
+Won't run on macbook - same error as above
+
+[Road to the top part 4 - my kaggle copy](https://www.kaggle.com/code/slinkp/multi-target-road-to-the-top-part-4)
+
+[Collaborative Filtering Deep Dive - my kaggle copy](https://www.kaggle.com/code/slinkp/collaborative-filtering-deep-dive/edit)
+
+works on kaggle as-is; CPU bound, uses very little of 1 GPU, takes a few
+minutes in all.
+
+### Book chapter 8
+
+original https://github.com/fastai/fastbook/blob/master/08_collab.ipynb
+
+Runs fine on macbook M1 
+only takes a few minutes
