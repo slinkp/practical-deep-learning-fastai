@@ -1095,8 +1095,14 @@ Works fine locally or on kaggle w/o GPU.
 
 #### Notebook: Road to the Top, Part 1
 
-https://www.kaggle.com/code/jhoward/first-steps-road-to-the-top-part-1
 [Video walkthrough here](https://www.youtube.com/watch?v=AdhG64NF76E&t=3268s)
+
+My copy is here:
+https://www.kaggle.com/code/slinkp/first-steps-road-to-the-top-part-1/edit/run/229632109
+
+Had to figure out a workaround to get rust installed (unclear why):
+
+https://www.kaggle.com/code/jhoward/first-steps-road-to-the-top-part-1/comments#3159485
 
 #### Book chapter 9
 
