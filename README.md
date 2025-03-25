@@ -22,7 +22,7 @@ I do this in Kaggle:
 
 Then I periodically save my work in Kaggle and commit it to github.
 
-## Notes on lessons 1 (Getting Started) and 2 (Production)
+## Lessons 1 (Getting Started) and 2 (Production)
 
 ### Installing fastbook / fastai on a Macbook Air M1 (2020)
 
@@ -490,7 +490,7 @@ project is impossible.
 
 
 
-## Things I've noticed for 2/26 study group meeting (lesson 3)
+### Things I've noticed for 2/26 study group meeting (lesson 3)
 
 Q: Why does this have worse error rates the second time?
 ```python
@@ -637,13 +637,13 @@ Recommended book: "Python for Data Analysis" by Wes McKinney covers all of those
 That's pretty essential to doing this ML work.
 Don't skip learning those!
 
-### Tokenization
+#### Tokenization
 
 This is the first time I understood the hand-wavy aspect of "we turn text into
 numbers and then do math on them".
 As with a lot of this stuff, it sounds more complicated than it is.
 
-### Having all 3 of Training / validation / test data is the most important thing in ML!!
+#### Having all 3 of Training / validation / test data is the most important thing in ML!!
 
 > "Possibly the most important idea in machine learning is that of having separate training, validation, and test data sets."
 
@@ -818,7 +818,7 @@ Output:
 
 ## Lesson 5: From-Scratch Model
 
-#### Video notes
+### Video notes
 https://www.youtube.com/watch?v=_rXzeWq4C6w
 
 Jargon:
@@ -848,7 +848,7 @@ See the notebook below about this.
 Sometimes this is a good place to start before assuming you need something better!
 
 
-#### Study group discussion
+### Study group discussion
 
 Question raised about why is sigmoid good as an output function
 but not for an activation function on the hidden layers?
@@ -859,7 +859,7 @@ https://github.com/proteusvacuum/rust-neural-network
 - [ ] Read about what makes a good activation function, and what the name means
 
 
-#### Notebook:  Linear model and neural net from scratch
+### Notebook:  Linear model and neural net from scratch
 
 *Suggestion from video* [here](https://youtu.be/_rXzeWq4C6w?t=4338): 
 Break down the functions (especially in the Deep Learning part of the notebook)
@@ -904,7 +904,7 @@ df = pd.get_dummies(df, columns=["Sex", "Pclass", "Embarked"], dtype=float)
 ```
 
 
-#### Notebook: Why use a framework
+### Notebook: Why use a framework
 
 There's some good examples of pandas functions in here - 
 see the feature engineering part.
@@ -926,11 +926,11 @@ So obviously there's a point of diminishing returns.
 - [ ] Followup experiment. What if i try a couple different models?
       Ensemble works best when combining models that make different predictions.
 
-#### Notebook: How random forests really work
+### Notebook: How random forests really work
 
 Deferring this till lesson 6
 
-#### Book chapter 9
+### Lesson 5 - Book chapter 9
 
 I got ahead of myself here and accidentally started this chapter before
 watching the lesson 5 video (because obviously one reads chapter 9 before 10,
@@ -980,9 +980,11 @@ Yuck.
 
 ## Lesson 6: Random Forests
 
-#### Video
+https://course.fast.ai/Lessons/lesson6.html
 
-##### Decision Trees
+### Video notes
+
+#### Decision Trees
 
 1R classifier - binary split on one category -
 that's a pretty good baseline.
@@ -1014,12 +1016,12 @@ this had accuracy (mean absolute error) of 0.183 - slight better -
 on kaggle competition, scored 0.765, not that much worse than the neural nets
 from earlier chapter!
 
-##### Advantage of decision trees:
+#### Advantage of decision trees:
 
 Often, little to no data preprocessing - eg didn't need dummy variables
 Fast and easy to create
 
-##### Random forest concept
+#### Random forest concept
 
 Take a bunch of decision trees generated on
 - a random subset of rows of the training data
@@ -1086,7 +1088,7 @@ pad zeroes, squish) and take the average prediction.
 This is described in "Small models: Road to the top part 2" notebook.
 Usually improves result accuracy!
 
-#### Notebooks
+### Notebooks
 
 [How random forests really work - my kaggle copy](https://www.kaggle.com/code/jhoward/how-random-forests-really-work/)
 
@@ -1115,7 +1117,7 @@ Left off here - confirmed it runs after fixing rust dependency
 
 Takes ~45 min to run on kaggle with GPU
 
-#### Book chapter 9
+### Book chapter 9
 
 This was already in lesson 5!
 ... still haven't finished though
@@ -1124,7 +1126,7 @@ This was already in lesson 5!
 
 https://course.fast.ai/Lessons/lesson7.html
 
-### Video
+### Video notes
 
 https://www.youtube.com/watch?v=p4ZZq0736Po
 
