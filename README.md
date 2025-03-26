@@ -1177,10 +1177,11 @@ RuntimeError: Adaptive pool MPS: input sizes must be divisible by output sizes. 
 
 [Road to the Top, Part 2 - my kaggle copy](https://www.kaggle.com/code/slinkp/small-models-road-to-the-top-part-2)
 
-Left off here - confirmed it runs after fixing rust dependency
-- haven't worked through it yet.
+Takes ~45 min to run on kaggle with GPU.
 
-Takes ~45 min to run on kaggle with GPU
+Tried submitting to competition with running on a single P100... results:
+scored 0.98154
+
 
 ### Book chapter 9
 
