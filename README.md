@@ -1124,6 +1124,8 @@ This was already in lesson 5!
 
 ## Lesson 7: Collaborative filtering
 
+Meeting 3/26/25
+
 https://course.fast.ai/Lessons/lesson7.html
 
 ### Video notes
@@ -1169,15 +1171,53 @@ https://www.youtube.com/watch?v=p4ZZq0736Po&t=2484s
 
 Also explains softmax
 
-Left off here:
-https://youtu.be/p4ZZq0736Po?t=3158
+Surprising: Sometimes training something to classify/predict 2 categories helps
+it do a better job at classifying/predicting one.
+Example: you can train a model that classifies species of fish. You can train a
+same size model that classifies species of fish AND types of boat.
+Sometimes the second one will do a better job of classifying fish!
 
+#### collaborative filtering
+
+Example of predicting movie ratings for users, given other movie ratings by
+those users.
+
+Collaborative filtering is a kind of matrix completion - if you have a matrix of users vs movies,
+you're predicting the empty cells.
+
+Jargon: *Embeddings*: it's just looking things up in an array
+(... can also think of as a shortcut for multiplying something by a one-hot-encoded vector
+because that's equivalent to looking up eg a row in a matrix.
+Explained at https://youtu.be/p4ZZq0736Po?t=5033)
+
+
+*Dot product*: in math, it's multiplying the corresponding elements of an array
+and summing the result
+
+eg in naive python:
+```python
+def dot_product(array1, array2):
+    return sum(
+        (a * b for (a, b) in zip(array1, array2))
+    )
+
+
+```
+
+Jargon: *Weight decay* aka L2 Regularization:
+Add to the loss function the sum of all weights squared.
+*Why*? It reduces the size of the weights - which helps reduce overfit.
+It encourages the model to make the weights big enough to get some predictions
+(as a weight of zero won't predict anything), but not bigger (which leads to overfit).
+[(Video link)](https://youtu.be/p4ZZq0736Po?t=5920)
+
+- [ ] Go back to Titanic notebooks and add weight decay, see if it improves accuracy
 
 ### Notebooks
 
 [Road to the top part 3 - my kaggle copy](https://www.kaggle.com/code/slinkp/scaling-up-road-to-the-top-part-3)
 
-Won't run on macbook - same error as above
+Won't run on macbook - same error as above - fine on kaggle.
 
 [Road to the top part 4 - my kaggle copy](https://www.kaggle.com/code/slinkp/multi-target-road-to-the-top-part-4)
 
@@ -1192,3 +1232,5 @@ original https://github.com/fastai/fastbook/blob/master/08_collab.ipynb
 
 Runs fine on macbook M1 
 only takes a few minutes
+
+This is or isn't identical to the deeep dive notebook?
