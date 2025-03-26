@@ -1234,3 +1234,43 @@ Runs fine on macbook M1
 only takes a few minutes
 
 This is or isn't identical to the deeep dive notebook?
+
+## Lesson 8
+
+### Video notes
+
+https://www.youtube.com/watch?v=htiNBPxcXgo&t=2s
+
+### Notebooks
+
+[collaborative filtering deep dive - again](https://www.kaggle.com/code/jhoward/collaborative-filtering-deep-dive/notebook)
+
+Already did that in previous lesson?
+
+### Spreadsheets??
+
+[collaborative filtering and embeddings](https://github.com/fastai/course22/blob/master/xl/collab_filter.xlsx)
+
+[convolutions](https://github.com/fastai/course22/blob/master/xl/conv-example.xlsx)
+
+### Book chapter 13
+
+https://github.com/fastai/fastbook/blob/master/13_convolutions.ipynb
+
+Runs fine on macbook
+
+
+## Bonus: Data Ethics
+
+https://course.fast.ai/Lessons/lesson8a.html
+
+No notebooks this time.
+
+### Video notes
+
+https://www.youtube.com/watch?v=krIVOb23EH8
+
+
+### Chapter 3
+
+No code this time
