@@ -1,4 +1,4 @@
-# Working through https://course.fast.ai/, feb 2025, with Recurse study group
+# Working through https://course.fast.ai/, February - April 2025, with Recurse study group
 
 [Paul Winkler](https://www.recurse.com/directory/5804-paul-winkler)
 
@@ -7,7 +7,7 @@
 
 ## Notes on my lesson process
 
-I start by watchin the lesson video.
+I start by watching the lesson video.
 
 When there are Kaggle notebooks linked from the lesson overview page,
 I do this in Kaggle:
@@ -22,11 +22,15 @@ I do this in Kaggle:
 
 Then I periodically save my work in Kaggle and commit it to github.
 
+In some cases, I just ran notebooks locally - when it worked
+(Not all of them did on macbook m1, see notes below).
+
 ## Lessons 1 (Getting Started) and 2 (Production)
 
 ### Installing fastbook / fastai on a Macbook Air M1 (2020)
 
-Various warnings about Mac not being supported.
+Various warnings about Mac not being supported by fastai et al.
+You could skip this and only run notebooks in the cloud (kaggle, colab, etc).
 
 As a starting point, I had:
 
@@ -353,9 +357,25 @@ Don't know if there's a way to control those.
 
 As noted above, i got training working locally on the mac - the current version
 of `is_it_a_bird.ipynb` was run locally.
+
 Note that I had to `export PYTORCH_ENABLE_MPS_FALLBACK=1` before running
-`jupyter notebook` to do that;
-not sure if the trainer would work, but
+`jupyter notebook` to do that; this is a workaround for the macbook M1 not
+being supported for some pytorch features. It allows those to run on CPU.
+So this lets (some) notebooks work on the M1 which otherwise wouldn't, but
+they'll probably be significantly slower than on a GPU.
+
+I've hit this often enough that I added it to my .envrc file; you could also
+add to your shell environment via .bash_profile or whatever.
+
+```
+# .envrc
+layout python python3.12
+
+export PYTORCH_ENABLE_MPS_FALLBACK=1
+```
+
+That done...
+Not sure if this trainer would work, but
 `batch_tfms=aug_transforms()` does not so I didn't get that far.
 I'm curious if it would work without `aug_transforms`; that didn't seem to
 improve my accuracy at all anyway.
