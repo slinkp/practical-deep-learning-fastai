@@ -12,9 +12,9 @@ collaborative, encouraging environment. It's phenomenal. And free!
   - [Notes on my lesson process](#notes-on-my-lesson-process)
   - [Lessons 1 (Getting Started) and 2 (Production)](#lessons-1-getting-started-and-2-production)
     - [Installing fastbook / fastai on a Macbook Air M1 (2020)](#installing-fastbook--fastai-on-a-macbook-air-m1-2020)
-    - [Running the notebook locally](#running-the-notebook-locally)
-    - [Meta note: Probably not going to run / update book notebooks anymore](#meta-note-probably-not-going-to-run--update-book-notebooks-anymore)
-    - [Enabling Voila (can skip this, it's a side quest)](#enabling-voila-can-skip-this-its-a-side-quest)
+    - [Meta note: Skip chapter 2!](#meta-note-skip-chapter-2)
+    - [SKIP: Running chapter 2 notebook locally](#skip-running-chapter-2-notebook-locally)
+    - [SKIP: Enabling Voila](#skip-enabling-voila)
     - [Exporting with nbdev](#exporting-with-nbdev)
     - [Deploying to Huggingface](#deploying-to-huggingface)
     - [HUGGINGFACE WARNING: need to enable git lfs BEFORE adding a large blob](#huggingface-warning-need-to-enable-git-lfs-before-adding-a-large-blob)
@@ -189,7 +189,17 @@ Matplotlib is building the font cache; this may take a moment.
 >>>
 ```
 
-### Running the notebook locally
+### Meta note: Skip chapter 2!
+
+I found that while it's worth reading the book chapter notebooks, because they have
+background and info that isn't in the video lessons or kaggle notebooks ...
+This particular chapter has not been updated since 2022 and has many obsolete
+commands and API calls that need fixing; outdated recommendations for deployment, etc.
+Since deployment is the whole focus of the chapter, it's probably the most
+dated / inaccurate content in this whole series.
+
+
+### SKIP: Running chapter 2 notebook locally
 
 I tried running `jupyter notebook` and navigating to chapter 2.
 It worked! But cells wouldn't run. I noticed this logged in the terminal:
@@ -244,30 +254,13 @@ learn_inf.predict(test_image_path')
 ('grizzly', tensor(1), tensor([2.7573e-04, 9.9949e-01, 2.3265e-04]))
 ```
 
-### Meta note: Probably not going to run / update book notebooks anymore
+### SKIP: Enabling Voila
 
-I found that while it's worth reading the book chapter notebooks, because they have
-background and info that isn't in the video lessons or kaggle notebooks - it's
-not worth the trouble to actually run them.
+**We don't need this at all anymore.**
+In the video lesson, Voila is not used; instead, the lesson focuses on Gradio.
 
-This is largely because most book
-chapters have not been updated since april 2022 - whereas the kaggle notebooks
-are much more up to date (2024), and even the video lessons from 2022 are at least a few
-months later than the book notebooks.
-
-Result: the book notebooks have too many obsolete commands and API calls that need fixing,
-outdated recommendations for deployment, etc. But the background info is still great.
-
-This seems to jibe with the experience of other people in the study group.
-
-I'll keep an eye out for whether this is still true in later lessons - the
-production deployment chapter is very prone to this problem as there's a
-million ways to run jupyter notebooks and deploy apps from them.
-
-
-### Enabling Voila (can skip this, it's a side quest)
-
-The book gives an obsolete command:
+But if you really want...
+The book chapter 2 gives an obsolete command:
 
 ```
 !jupyter serverextension enable --sys-prefix voila
@@ -278,9 +271,6 @@ That should be:
 ```
 !jupyter server extension enable --sys-prefix voila
 ```
-
-However, I ended up skipping Voila because in the video lesson,
-that seems to have been dropped in favor of Gradio.
 
 ### Exporting with nbdev
 
