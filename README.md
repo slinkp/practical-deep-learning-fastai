@@ -136,15 +136,15 @@ I tried running `jupyter notebook` and navigating to chapter 2.
 It worked! But cells wouldn't run. I noticed this logged in the terminal:
 
 ```console
-[W 2025-02-18 16:39:30.338 ServerApp] Notebook book/01_intro.ipynb is not trusted
+[W 2025-02-18 16:39:30.338 ServerApp] Notebook fastbook/01_intro.ipynb is not trusted
 ```
 
 Jupyter will need to be told it's OK to trust this notebook, and then we can
-run it:
+run it. You can do that from the UX or from the command line:
 
 ```console
-$ jupyter trust book/02_production.ipynb
-Signing notebook: book/02_production.ipynb
+$ jupyter trust fastbook/02_production.ipynb
+Signing notebook: fastbook/02_production.ipynb
 ```
 
 Then we can run it again:
@@ -153,12 +153,12 @@ Then we can run it again:
 $ juypter notebook
 ```
 
-Once that's done, any notebook sections in the `book/` or `lessons/` subdirectory
+Once that's done, any notebook sections in the `fastbook/` or `lessons/` subdirectory
 _that are intended to run locally_ should work.
 I'll update my copies of the notebooks as I go through the course,
 to ensure they work for me.
 
-For example, I made some changes to my fork of the [chapter 2 notebook](book/02_production.ipynb)
+For example, I made some changes to my fork of the [chapter 2 notebook](fastbook/02_production.ipynb)
 to ensure I can resume locally with the
 exported bear classification pickle (included in this repo) without having to
 re-do the first half that's intended to be run on Colab with a GPU.  (I may
@@ -712,7 +712,7 @@ navigate to fastbook/10_nlp.ipynb, and import it.
 Then immediately do a "quick save" and commit to get any changes that kaggle
 automatically makes on import (there are some, probably just reformatting and metadata?)
 
-- [ ] TODO - update previous chapters with my changes, then remove the
+- [x] TODO - update previous chapters with my changes, then remove the
       redundant manual copies.
 
 #### ULMFit and Transfer Learning
@@ -1119,6 +1119,7 @@ Takes ~45 min to run on kaggle with GPU
 
 ### Book chapter 9
 
+[Tabular Modeling Deep Dive notebook](fastbook/09_tabular.ipynb)
 This was already in lesson 5!
 ... still haven't finished though
 
@@ -1228,12 +1229,12 @@ minutes in all.
 
 ### Book chapter 8
 
-original https://github.com/fastai/fastbook/blob/master/08_collab.ipynb
+[Collaborative Filtering Deep Dive](fastbook/08_collab.ipynb)
 
 Runs fine on macbook M1 
 only takes a few minutes
 
-This is or isn't identical to the deeep dive notebook?
+This is or isn't identical to the above deep dive notebook?
 
 ## Lesson 8
 
@@ -1255,7 +1256,7 @@ Already did that in previous lesson?
 
 ### Book chapter 13
 
-https://github.com/fastai/fastbook/blob/master/13_convolutions.ipynb
+[Convolutional Neural Networks](fastbook/13_convolutions.ipynb)
 
 Runs fine on macbook
 
@@ -1273,4 +1274,4 @@ https://www.youtube.com/watch?v=krIVOb23EH8
 
 ### Chapter 3
 
-No code this time
+[Data Ethics](fastbook/03_ethics.ipynb)
