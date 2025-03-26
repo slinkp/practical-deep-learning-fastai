@@ -2,7 +2,6 @@
 
 [Paul Winkler](https://www.recurse.com/directory/5804-paul-winkler)
 
-
 # Lesson Notes
 
 ## Notes on my lesson process
