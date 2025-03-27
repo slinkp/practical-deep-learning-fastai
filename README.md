@@ -1244,7 +1244,7 @@ Example: you can train a model that classifies species of fish. You can train a
 same size model that classifies species of fish AND types of boat.
 Sometimes the second one will do a better job of classifying fish!
 
-#### collaborative filtering
+#### Collaborative Filtering
 
 Example of predicting movie ratings for users, given other movie ratings by
 those users.
@@ -1284,14 +1284,54 @@ It encourages the model to make the weights big enough to get some predictions
 
 [Road to the top part 3 - my kaggle copy](https://www.kaggle.com/code/slinkp/scaling-up-road-to-the-top-part-3)
 
-Won't run on macbook - same error as above - fine on kaggle.
+This one is no go on macbook (same error as above and would take forever anyway even if I could get it running on unified memory.)
+
+Needed tweaks to run on kaggle!
+
+Per [this thread](https://forums.fast.ai/t/road-to-the-top-part-3-running-mean-error-with-swin-models/106435)
+I had to start over with the timm library pinned to 0.6.13.
+This is my installation code:
+
+```
+!curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+!(. "$HOME/.cargo/env"; pip install -Uqq fastkaggle fastai fastcore huggingface_hub "timm==0.6.13")
+```
+
+After that, some of the models ran out of GPU memory on the dual T4 setup even
+with accum increased absurdly high to 32.
+I tried again on the single P100 and that worked.
+
+It does take a long time to complete though... looks like it has to be run as a
+non-interactive session. I tried running the big ensemble training loop with
+epochs=1 just to be sure it would work at all, and *that* took over 2 hours
+on the P100.  This actually scored decently - 0.96001.
+
+I made a [simplified copy](https://www.kaggle.com/code/slinkp/simplified-scaling-up-road-to-the-top-part-3/edit) that just does everything needed to actually submit, skipping all the experimentation parts. 
+Running that with epochs=10.... how long will it take?
+After 42 minutes it hasn't logged the first model yet, though it won't until
+that finishes all of its epochs...
+https://www.kaggle.com/code/slinkp/simplified-scaling-up-road-to-the-top-part-3?scriptVersionId=229911724
+
+**Result**: 0.98692, my highest score on paddy doctor.
+Took 8.5 hours to run on the kaggle P100.
 
 [Road to the top part 4 - my kaggle copy](https://www.kaggle.com/code/slinkp/multi-target-road-to-the-top-part-4)
+
+Same setup notes as part 3. This one runs considerably faster though, no
+worries about running out of RAM.
+I tweaked slightly - eg slightly faster learning rate, 6 epochs.
+
+Also hacked a bit to figure out how to get predictions into a submission.csv
+with this public score: 0.97424
+
+# LEFT OFF HERE
+
 
 [Collaborative Filtering Deep Dive - my kaggle copy](https://www.kaggle.com/code/slinkp/collaborative-filtering-deep-dive/edit)
 
 works on kaggle as-is; CPU bound, uses very little of 1 GPU, takes a few
 minutes in all.
+
 
 ### Book chapter 8
 
