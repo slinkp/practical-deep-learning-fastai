@@ -37,7 +37,7 @@ collaborative, encouraging environment. It's phenomenal. And free!
   - [Lesson 5: From-Scratch Model](#lesson-5-from-scratch-model)
     - [Video notes](#video-notes-1)
     - [Study group discussion](#study-group-discussion)
-    - [Notebook:  Linear model and neural net from scratch](#notebook--linear-model-and-neural-net-from-scratch)
+    - [Notebook: Linear model and neural net from scratch](#notebook-linear-model-and-neural-net-from-scratch)
     - [Notebook: Why use a framework](#notebook-why-use-a-framework)
     - [Notebook: How random forests really work](#notebook-how-random-forests-really-work)
     - [Lesson 5 - Book chapter 9](#lesson-5---book-chapter-9)
@@ -924,7 +924,7 @@ https://github.com/proteusvacuum/rust-neural-network
 - [ ] Read about what makes a good activation function, and what the name means
 
 
-### Notebook:  Linear model and neural net from scratch
+### Notebook: Linear model and neural net from scratch
 
 *Suggestion from video* [here](https://youtu.be/_rXzeWq4C6w?t=4338): 
 Break down the functions (especially in the Deep Learning part of the notebook)
@@ -936,7 +936,7 @@ https://www.kaggle.com/code/slinkp/lesson-5-linear-model-and-neural-net-from-scr
 
 I scanned through it and since there's so little data I'm guessing it'll be
 fine to run on kaggle, no need for colab.
-... Yup confirmed, ran all cells in nearly no time with no acceleraor.
+... Yup confirmed, ran all cells in nearly no time with no accelerator.
 I may just run locally.
 
 Locally it gets an error that doesn't happen in Kaggle?? WHy?
@@ -1324,23 +1324,19 @@ I tweaked slightly - eg slightly faster learning rate, 6 epochs.
 Also hacked a bit to figure out how to get predictions into a submission.csv
 with this public score: 0.97424
 
-# LEFT OFF HERE
 
-
-[Collaborative Filtering Deep Dive - my kaggle copy](https://www.kaggle.com/code/slinkp/collaborative-filtering-deep-dive/edit)
+[Collaborative Filtering Deep Dive](lessons/07-collaborative-filtering-deep-dive.ipynb)
 
 works on kaggle as-is; CPU bound, uses very little of 1 GPU, takes a few
 minutes in all.
+I ended up running this on the macbook, it was fast there
 
 
 ### Book chapter 8
 
 [Collaborative Filtering Deep Dive](fastbook/08_collab.ipynb)
 
-Runs fine on macbook M1 
-only takes a few minutes
-
-This is or isn't identical to the above deep dive notebook?
+This appears basically identical to the deep dive notebook above, so I didn't read it.
 
 ## Lesson 8
 
@@ -1348,11 +1344,57 @@ This is or isn't identical to the above deep dive notebook?
 
 https://www.youtube.com/watch?v=htiNBPxcXgo&t=2s
 
+#### Collab filtering continued
+
+Continues walking through the Collaborative Deep Dive notebook,
+showing some guts of how some things are defined in pytorch and fastai and
+comparing them to the "from-scratch" versions.
+
+Some more discussion of how to visualize/interpret embeddings and biases,
+eg [here in video](https://youtu.be/htiNBPxcXgo?t=741)
+
+Other interesting things you can look at: Which things are most similar?
+Example - which movie is "most like" silence of the lambs:
+[here in video](https://youtu.be/htiNBPxcXgo?t=1331)
+
+(Not sure I buy that "dial M for murder" makes sense?)
+
+
+Neural net vs Dot product approach:
+NN is great when you have more metadata (eg movie genre, movie year, user birth
+year, etc).
+The dot-product approach works well when you have less metadata.
+
+"A lot of companies nowadays are combining both approaches"
+
+#### Embeddings in NLP
+
+https://youtu.be/htiNBPxcXgo?t=1834
+
+I don't know why this blew my mind but:
+
+in NLP, in addition to assigning an arbitrary number to a word,
+we also do the same thing we did for movies, users, etc:
+_create an embedding matrix_. 
+Eg you can assign 5 random numbers to each word to represent 5 latent categories.
+
+You can then represent a stream of text as a matrix:
+replace each word (or token) with its embedding matrix.
+Feed those through a NN and you get your result.
+
+I need to review this stuff, it's a bit foggy.
+
+#### Convolutions
+
+https://youtu.be/htiNBPxcXgo?t=2674
+
+LEFT OFF HERE
+
 ### Notebooks
 
 [collaborative filtering deep dive - again](https://www.kaggle.com/code/jhoward/collaborative-filtering-deep-dive/notebook)
 
-Already did that in previous lesson?
+Already did that in previous lesson!
 
 ### Spreadsheets??
 
