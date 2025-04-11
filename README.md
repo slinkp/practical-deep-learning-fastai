@@ -1344,6 +1344,7 @@ This appears basically identical to the deep dive notebook above, so I didn't re
 
 https://www.youtube.com/watch?v=htiNBPxcXgo&t=2s
 
+
 #### Collab filtering continued
 
 Continues walking through the Collaborative Deep Dive notebook,
@@ -1384,11 +1385,148 @@ Feed those through a NN and you get your result.
 
 I need to review this stuff, it's a bit foggy.
 
-#### Convolutions
+#### Convolution:
+https://www.youtube.com/watch?v=htiNBPxcXgo&t=2673s
 
-https://youtu.be/htiNBPxcXgo?t=2674
+Basically take a smallish matrix - the "kernel" -
+let's say it's 3x3.
+Let's say your input is a 2D square image, so an NxN
+matrix of pixels.
+The first layer your convolutional NN will
+apply this "convolution" process:
 
-LEFT OFF HERE
+For pixel at [x,y] of the _output_, we multiply
+each of its nine neighbors by the corresponding element
+of the kernel, and add those all up. eg
+
+- multiply input pixel [x-1, y-1] * weight at kernel[0, 0]
+and go across:
+- multiply input pixel [x-1, y] * weight at kernel[0, 1]
+- multiply input pixel [x-1, y+1] * weight at kernel[0, 2]
+
+Second row of input and kernel:
+- multiply input pixel [x, y-1] * weight at kernel[1, 0]
+and go across:
+- multiply input pixel [x, y] * weight at kernel[1, 1]
+- multiply input pixel [x, y+1] * weight at kernel[1, 2]
+
+Third row of input and kernel:
+- multiply input pixel [x+1,y-1] * weight at kernel[2, 1]
+- multiply input pixel [x+1,y] * weight at kernel[2, 1]
+- multiply input pixel [x+1,y+1] * weight at kernel[2, 2]
+
+... add those all up, and put them in the output at [x, y].
+
+Then repeat that process for every value of [x, y]!
+
+The video gives a really good demo of how you can easily
+do horizontal edge detection with a kernel like this:
+
+```
+[
+ [ 1,  1,   1],
+ [ 0,  0,   0],
+ [-1, -1,  -1],
+ ]
+```
+
+2 ways to get something like eg a handwritten digit classifier from
+this:
+
+#### Older way: Max pooling
+https://www.youtube.com/watch?v=htiNBPxcXgo&t=3480s
+
+Do another layer where for each square of eg 2x2 pixels in the input,
+you take the MAX of those and write 1 pixel of output.
+So from an NxN sized layer, you get a 0.5N x 0.5N layer.
+
+This is a way of gradually reducing half of the activations on each dimension.
+
+Eg if you do 2x2 max pooling with a 32 x 32 input layer,
+you get a 16 x 16 output layer.
+
+So you do convolution -> max pool -> convolution -> max pool
+etc until you either:
+
+- You can reduce it down until the last max pool outputs a 1x1 matrix
+  so you have *one number* that represents eg "Is this a 7".
+
+- OR, at some chosen point you can say: Just do a dot product of the remaining
+  activations and a same-size matrix of weights (called the "dense layer" - a
+  normal linear layer, not a convolution layer)
+  - then add up the numbers from the dot product
+  - and then softmax.
+  - The resulting number is your prediction!
+  - For a categorizer, the dense layer would have one such matrix for each
+    desired output channel, eg "is this a 0", "is this a 1" etc
+
+
+#### Newer way: "Slide convolution"
+
+https://youtu.be/htiNBPxcXgo?t=3660
+In the convolution layer, you skip one column as you slide over.
+So you'd do your same matrix multiplication and sum,
+but then instead of sliding to pixel at x + 1, you skip to x + 2.
+This is a "slide 2 convolution"
+
+It has a similar effect to max pooling in that the output of each layer
+is half the size of the previous (on each dimension)...
+
+Eg if you if you do "slide 2 convolution" on a 32 x 32 matrix,
+the output is a 16 x 16 matrix.
+
+I think this is done nowadays because it's more efficient?
+
+And typically nowadays, we reduce down to "about a 7x7" matrix,
+and then instead of max pool we do an _average_ pool.
+(take the average of your 7x7 pixels, then softmax).
+
+**Why max pool vs average pool matters**
+
+What this means:
+Let's say you're trying to detect "Is this a bear?"
+The final 7x7 grid basically represents "Is there a bear in _this part_ of the
+photo".  Average pooling works well if there's a bear in many of the areas.
+But if there's a bear in only one of the 7x7=49 areas, you'll get a small
+number and the result will likely be "not a bear".
+
+So max pooling at the end works well if you want to know "is there something
+like a bear ANYWHERE in this" and average pooling works better if you want to
+know "is this MAINLY a photo of a bear"
+
+**FastAI handles this for you** by trying both max pool and average pool and
+concat them together so usually you don't have to think about it
+
+#### Dropout
+
+Helps avoid overfit!
+
+- Humans can recognize somewhat corrupted data
+- The computer can't - unless we force it to learn how!
+
+To do that: Effectively remove random pixels from the activations at some level
+of your convolutional NN.
+Corrupting the image deliberately like this forces the computer to learn to
+tolerate partially corrupted / noisy input.
+
+It's like training data augmentation - but _on the activation data inside the
+NN_ instead of on the input.
+
+How it works: take your processed matrix at some layer of your convolutional NN.
+Apply a "dropout mask" which is a fancy way of saying, for each pixel, generate
+a random number and if it's below some threshold, we _drop that pixel_ (set it
+to 0).
+
+(The way it actually works is: generate an NxN matrix of random numbers betw
+0.0 and 1.0, and set it to 0 if it's below the threshold and 1 if it's above
+the threashold; multiply each pixel of input by the corresponding factor).
+
+
+### Followup reading
+
+- [ ] Meta Learning by Radek Osmulski
+      https://www.goodreads.com/book/show/58213068-meta-learning
+      - where to get? It's off amazon
 
 ### Notebooks
 
