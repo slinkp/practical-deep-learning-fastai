@@ -7,7 +7,15 @@ I did Part 1 (chapters 1-8) as part of a weekly study group that spontaneously f
 want a place to rekindle your excitement about programming and learn in a
 collaborative, encouraging environment. It's phenomenal. And free!
 
+This repo contains the notebooks that I worked through. This README is both for
+recording fixes/workarounds I found for outdated lesson code, and my notes for
+myself on the material.
+
+If you are working through the course and hit snags, my git history might be of
+interest as well!
+
 ## Table of Contents
+- [A practical overview](#a-practical-overview)
 - [Lesson Notes](#lesson-notes)
   - [Notes on my lesson process](#notes-on-my-lesson-process)
   - [Lessons 1 (Getting Started) and 2 (Production)](#lessons-1-getting-started-and-2-production)
@@ -58,6 +66,72 @@ collaborative, encouraging environment. It's phenomenal. And free!
     - [Video notes](#video-notes-5)
     - [Chapter 3](#chapter-3)
 
+
+# A Practical Overview
+
+The course consists of both youtube lecture videos, jupyter notebooks linked
+from the course web page, AND a free ebook repository (also in jupyter notebook form).
+
+The book material is a good supplement to the
+videos and notebooks, but it's a bit challenging to correlate them:
+
+- The course website is the "correct" order to work through the material.
+- Some of the book chapters flesh out video content in more detail, which is a
+  nice way to reinforce it.
+- The book chapters are in a totally different order!
+  - This means there are a few places where the book will refer back to
+    chapters you haven't read yet. I tried to just roll with it.
+
+It's really essential to treat this as hands-on and not just video content to
+consume.
+
+Work through and run the jupyter notebooks: definitely all the notebooks linked
+from the website, and probably also most or all of the book
+versions of them.
+
+I ended up putting the book repo as a git subtree in `fastbook/`.
+My finished / edited versions of the book notebooks are in there, check the git
+history.
+
+Excessive commentary on individual videos and chapters below :)
+
+## Errata and missing updates
+
+Lots! Inevitably there is code in the 3+-year-old material that no longer works as-is.
+I *think* every fix and workaround I found is in this file and/or in the
+notebook copies in this repo.
+
+No guarantees: check the dates on this repo! Check if the upstream course is
+updated! This stuff worked for me in early 2025; at the time of this writing, the video
+lectures and the book [from its github
+repo](https://github.com/fastai/fastbook) were largely circa early 2022.
+
+## How to run the notebooks
+
+There are so many ways! I landed on this:
+
+- I tried both Kaggle and Google Colab. Both are fine. The Jupyter experience
+  isn't exactly the same in them. No strong opinion here.
+
+- There are mentions of running notebooks on Paperspace too. I ignored this as I
+  really didn't need a third way.
+
+- Some of the notebook code is quite slow to run, and you won't know until you
+  try. This can really interrupt the flow of learning :-(
+  For example, in lesson 4 book chapter 10, I wish I had skipped starting on
+  Kaggle and had gone straight to Colab with paid credits for an A100 (it took about 100
+  minutes there, would have been literally hours longer on kaggle's fastest
+  free GPU).  The Lesson 7 notebook "Road to the Top part 3" is for a Kaggle
+  competition, so that's probably the right place to run it - but it took over **8 hours** to run on kaggle!
+
+- Skip anything to do with `Voila`; I think it's just obsolete.
+
+- Running locally on your computer is NOT necessary. I did this sometimes just
+  for "fun" and curiosity.
+  Some of the notebooks WOULD NOT run locally for me at all; some require enough
+  GPU time that it's not practical. I've tried to record in this file which
+  ones I was and was not able to run locally. Your hardware will be different. YMMV.
+
 # Lesson Notes
 
 ## Notes on my lesson process
@@ -87,8 +161,9 @@ This is NOT necessary - I just felt like seeing what I could do on my very modes
 
 ### Installing fastbook / fastai on a Macbook Air M1 (2020)
 
-Various warnings about Mac not being supported by fastai et al.
 You *definitely can* skip all this and only run the lesson notebooks in the cloud (kaggle, google colab, etc).
+
+Various warnings about Mac not being supported by fastai et al.
 
 As a starting point, I had:
 
@@ -148,7 +223,7 @@ That seemed to work as per the example program:
 all good
 ```
 
-So I tried `pip install fastbook` (which includes fastai) - apparently this reinstalls
+Next I tried `pip install fastbook` (which includes fastai) - apparently this reinstalls
 different versions of pytorch et al.
 
 **Why am I using pip and not conda, anaconda, mamba, or your favorite package management**?
@@ -175,7 +250,7 @@ $
 ```
 
 Apparently the warning about torchaudio version mismatch is OK enough? We'll see.
-Quick check that fastbook 
+Quick check that fastbook installed:
 
 ```pycon
 
@@ -198,16 +273,21 @@ Matplotlib is building the font cache; this may take a moment.
 
 ### Meta note: Skip chapter 2!
 
-I found that while it's worth reading the book chapter notebooks, because they have
+I found that while it's worth reading the other book chapter notebooks, because they have
 background and info that isn't in the video lessons or kaggle notebooks ...
-This particular chapter has not been updated since 2022 and has many obsolete
+This particular chapter has so many obsolete
 commands and API calls that need fixing; outdated recommendations for deployment, etc.
 
 Since deployment is the whole focus of the chapter, it's probably the most
 dated / inaccurate content in this whole series.
 
+The [lesson 2](https://course.fast.ai/Lessons/lesson2.html) lecture video and
+lesson notebooks are sufficient.
 
 ### SKIP: Running chapter 2 notebook locally
+
+This turned out to be a waste of time!
+But here are my notes for posterity anyway.
 
 I tried running `jupyter notebook` and navigating to chapter 2.
 It worked! But cells wouldn't run. I noticed this logged in the terminal:
@@ -765,6 +845,9 @@ section. (Minor python formatting tweaks for readability)
 
 ### Lesson 4 NLP Book: Chapter 10
 
+**WARNING** this one is very slow. I wish I had gone straight to colab with an
+A100 GPU (not free).
+
 **Sidebar**: I wish the book would warn you when midway through a chapter it's
 going to ask you to do something that takes significant GPU time:
 as a first time reader, you have no idea whether that's going to be 3
@@ -1019,7 +1102,7 @@ empty notebook.
 I had to manually upload the file from my local drive, then do a quick save and
 type the full path `fastbook/09_tabular.ipynb`
 
-Jargon: *One-hot encoding* is not a typo for "one-shot"
+Jargon: *One-hot encoding* is not a typo for "one-shot".
 It basically means each token is encoded as a vector of bits of length N
 where N is the total number of tokens, and only a single bit is set for each
 token.  This could use a lot of bits per token, but it prevents the model from
@@ -1030,7 +1113,7 @@ Maybe reading this chapter is premature.
 I started this during lesson 5 by accident (chapter 9 comes before 10 right??)
 
 There's a fair amount of "As we saw in the last chapter..." but we haven't
-covered chapter 8
+covered chapter 8 yet :(
 
 #### Most ML problems can best be solved by one of two approaches
 
@@ -1038,15 +1121,16 @@ covered chapter 8
    unstructured data (natural language, audio, image, video)
 2. "Ensembles of decision trees" - mainly for structured data eg database
    tables
-   
+
 They give similar results for strutured data BUT the decision tree approach
 doesn't need GPUs, is fast to train, and there's a lot of good tools and techniques for
 answering typical questions about the data.
 
 **Kaggle old competition snag**
 You can't accept rules directly on old competitions.
-Workaround: click on one of the data files (not the first thing in the data tree), _then_ a popup appears allowing you
-to join the competition and accept.
+
+Workaround: click on one of the data files (not the first thing in the data
+tree), _then_ a popup appears allowing you to join the competition and accept.
 
 **Security footgun**
 
@@ -1096,12 +1180,12 @@ from earlier chapter!
 
 #### Advantage of decision trees:
 
-Often, little to no data preprocessing - eg didn't need dummy variables
-Fast and easy to create
+- Often, little to no data preprocessing - eg didn't need dummy variables
+- Fast and easy to create
 
 #### Random forest concept
 
-Take a bunch of decision trees generated on
+Take a bunch of decision trees generated on:
 - a random subset of rows of the training data
 - a random subset of the columns of the training data
 
@@ -1297,12 +1381,19 @@ It encourages the model to make the weights big enough to get some predictions
 
 [Road to the top part 3 - my kaggle copy](https://www.kaggle.com/code/slinkp/scaling-up-road-to-the-top-part-3)
 
+**WARNING** this one is VERY slow to run!
+After working through the initial experimentation stuff, I let it run overnight on a kaggle
+P100 and it took 8.5 hours!
+
+(Did not try this one on a paid google colab, it would have been faster, but
+the whole point is to submit to the kaggle competition :shrug:)
+
 This one is no go on macbook (same error as above and would take forever anyway even if I could get it running on unified memory.)
 
 Needed tweaks to run on kaggle!
 
 Per [this thread](https://forums.fast.ai/t/road-to-the-top-part-3-running-mean-error-with-swin-models/106435)
-I had to start over with the timm library pinned to 0.6.13.
+I had to start over with the `timm` library pinned to 0.6.13.
 This is my installation code:
 
 ```
