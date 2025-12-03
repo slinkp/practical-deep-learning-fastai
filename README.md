@@ -62,12 +62,14 @@ collaborative, encouraging environment. It's phenomenal. And free!
 
 ## Notes on my lesson process
 
+(Note this is how I did the first few chapters, but my process evolved some as I went through)
+
 I start by watching the lesson video.
 
 When there are Kaggle notebooks linked from the lesson overview page,
 I do this in Kaggle:
 - Make a copy via "Copy and Edit"
-- File -> Link to Github
+- File -> Link to Github (this repo)
 - Immediately do a quick save, call it "Initial copy",
   and commit that to github in the `lessons/` directory.
   I add the lesson number as a prefix.
@@ -79,24 +81,25 @@ Then I periodically save my work in Kaggle and commit it to github.
 
 In some cases, I just ran notebooks locally - when it worked
 (Not all of them did on macbook m1, see notes below).
+This is NOT necessary - I just felt like seeing what I could do on my very modest hardware!
 
 ## Lessons 1 (Getting Started) and 2 (Production)
 
 ### Installing fastbook / fastai on a Macbook Air M1 (2020)
 
 Various warnings about Mac not being supported by fastai et al.
-You could skip this and only run notebooks in the cloud (kaggle, colab, etc).
+You *definitely can* skip all this and only run the lesson notebooks in the cloud (kaggle, google colab, etc).
 
 As a starting point, I had:
 
 - Python 3.12 installed via homebrew
 - Python 3.13 likewise
-- I chose 3.12 for this as there seems to be a general recommendation to use one less
+- I chose 3.12 for this course, as there seems to be a general recommendation to use one less
   than latest python for Pytorch et al?
 
-I use [direnv](https://direnv.net/) to manage all my directory-specific environment setup.
-You don't have to - you could manually use pyvenv, virtualenv, or whatever you like;
-with direnv, I just create this `.envrc` file in the directory where I clone
+I use [direnv](https://direnv.net/) a lot to manage all my directory-specific environment setup.
+You don't have to - you could manually use pyvenv, virtualenv, or whatever you like for python environments;
+this is just how I like to work on my projects.  With direnv, I just create this `.envrc` file in the directory where I clone
 this repo:
 
 ```
@@ -147,12 +150,16 @@ all good
 
 So I tried `pip install fastbook` (which includes fastai) - apparently this reinstalls
 different versions of pytorch et al.
-Why am I using pip?
-Because that's what's used in all the example jupyter notebooks for this course
-on Kaggle and Colab, and it works there. I'm comfortable with Pip and didn't feel a need
+
+**Why am I using pip and not conda, anaconda, mamba, or your favorite package management**?
+
+Two reasons: Because that's what's used in all the example jupyter notebooks for this course
+on Kaggle and Colab, and it works there. 
+And, I'm already comfortable with Pip and didn't feel a need
 to go on a tangent into trying different Python installers and getting up to
 speed on mamba vs conda et al.
-Good news - Pip seems to have worked!
+
+Good news - Pip seems to have worked! There's some warnings, but they didn't seem to cause issues.
 
 ```console
 
@@ -168,7 +175,7 @@ $
 ```
 
 Apparently the warning about torchaudio version mismatch is OK enough? We'll see.
-
+Quick check that fastbook 
 
 ```pycon
 
@@ -195,6 +202,7 @@ I found that while it's worth reading the book chapter notebooks, because they h
 background and info that isn't in the video lessons or kaggle notebooks ...
 This particular chapter has not been updated since 2022 and has many obsolete
 commands and API calls that need fixing; outdated recommendations for deployment, etc.
+
 Since deployment is the whole focus of the chapter, it's probably the most
 dated / inaccurate content in this whole series.
 
@@ -257,9 +265,11 @@ learn_inf.predict(test_image_path')
 ### SKIP: Enabling Voila
 
 **We don't need this at all anymore.**
+
 In the video lesson, Voila is not used; instead, the lesson focuses on Gradio.
 
-But if you really want...
+But if you REALLY want... 
+
 The book chapter 2 gives an obsolete command:
 
 ```
@@ -272,9 +282,9 @@ That should be:
 !jupyter server extension enable --sys-prefix voila
 ```
 
-### Exporting with nbdev
+### Exporting the notebook code with nbdev
 
-This wasn't mentioned:
+This dependency wasn't mentioned:
 
 ```console
 $ pip install nbdev
@@ -303,17 +313,18 @@ I can click that URL and upload cats and dogs and get an answer:
 
 ### Deploying to Huggingface
 
-I made a separate repo to deploy from as that seemed the path of least
+I made a separate repo to deploy from, as that seemed the path of least
 resistance.
+
 But, that means manually copying the exported app to it, renaming it `app.py`,
 copying needed model files, maintaining a `requirements.txt`, etc.
-None of that hard, but tedious and I'm likely to forget if I ever revisit this!
+None of that was hard, but tedious and I'm likely to forget if I ever revisit this!
 
 
 ### HUGGINGFACE WARNING: need to enable git lfs BEFORE adding a large blob
 
-
 Don't just dump a big pickle file into your repo!
+
 Other folks ran into this issue:
 
 ```
@@ -362,13 +373,13 @@ remote: ------------------------------------------------------------------------
 To https://huggingface.co/spaces/slinkp/is_it_a_cat
 ```
 
-If you create the repo on huggingface spaces that may work out of the box?
-I think I hit this because I created my own repo, then added my huggingface
+If you create the repo on huggingface spaces, and clone it from there, that may work out of the box?
+I think I hit this issue because I created my own repo locally, then added my huggingface
 space as a remote.
 
-Removing the file, rebasing the remove onto the commit that added it so it
-never existed, then re-adding in a new commit AFTER doing `git lfs install`
-seems to have worked.
+To fix in an existing repo: Remove the large file(s), rebasing the removal onto the commit that added it so it's
+like it never existed.  Then re-add the file in a new commit AFTER doing `git lfs install`.
+That seems to work.
 
 ### My first working app on Huggingface 
 
@@ -391,26 +402,26 @@ https://slinkp.com/static/is_it_a_cat.html
 
 I updated my [lesson 1 classifer](lessons/01_is_it_a_bird.ipynb): it's now a five-way classifier for bird,
 kitten, puppy, guitar, bass. With some data cleaning as per lesson 2.
-And I updated https://huggingface.co/spaces/slinkp/is_it_a_cat to support both
+
+And I updated https://huggingface.co/spaces/slinkp/is_it_a_cat to support both versions,
 as a tabbed UI.
 
 And I've updated the [web app](https://slinkp.com/static/is_it_a_cat.html) to use the 5-way classifier.
 
 TIL that apparently when you expose multiple learners in a huggingface app, it will
 conveniently name the endpoints like "/predict", "/predict_1", et al.
-Don't know if there's a way to control those.
+Don't know if there's a way to control those endpoint names.
 
 As noted above, i got training working locally on the mac - the current version
 of `is_it_a_bird.ipynb` was run locally.
 
 Note that I had to `export PYTORCH_ENABLE_MPS_FALLBACK=1` before running
 `jupyter notebook` to do that; this is a workaround for the macbook M1 not
-being supported for some pytorch features. It allows those to run on CPU.
+being supported for some pytorch features. It allows those to run (slowly) on CPU.
 So this lets (some) notebooks work on the M1 which otherwise wouldn't, but
-they'll probably be significantly slower than on a GPU.
+they'll be significantly slower than on a GPU.
 
-I've hit this often enough that I added it to my .envrc file; you could also
-add to your shell environment via .bash_profile or whatever.
+I've hit this often enough that I added it to my .envrc file; you could add to your shell environment via .bash_profile or whatever.
 
 ```
 # .envrc
@@ -427,7 +438,7 @@ improve my accuracy at all anyway.
 
 ### Questions to follow up
 
-- [ ] Q: Is there a safer way to export/load than pickle?
+- [x] Q: Is there a safer way to export/load than pickle?
       A: There are several. You can use torch.save and torch.load, for example:
       
 ```python
@@ -459,7 +470,7 @@ You can also look into alternatives like ONNX format which is designed for secur
 Can pretty much start at [12:11](https://www.youtube.com/watch?v=hBBOjCiFcuo&t=731s)
 
 I'm skipping both paperspace and jupyterlab -
-already got kaggle and colab and local notebooks, i don't need 5 ways of doing
+I've already got kaggle and colab and local notebooks, i don't need 5 ways of doing
 the same thing! He mentions that jupyterlab is especially good for folks not
 comfortable with terminal. I'm a terminal guy.
 
@@ -496,7 +507,7 @@ That's a function that tells you how to change the parameters to make the loss b
 
 Pytorch can calculate a derivative for you!
 
-What's a tensor? A: Everything in pytorch is a tensor. Basically an N-dimensional array.
+Q: What's a tensor? A: "Everything" in pytorch is a tensor: Basically an N-dimensional array.
 
 ### Gradient descent!
 
@@ -511,9 +522,10 @@ Walking through an example at [33:39](https://www.youtube.com/watch?v=hBBOjCiFcu
 
 43:18 - 49:00
 Mind blown.
+
 Very easy to understand example:
-I finally understand why combining a lot of `max(0, m * x + b)` can approximate any function.
-That's RELU (rectified linear).
+I finally understand (basically) why combining a lot of `max(0, m * x + b)` can approximate any function.
+That's RELU (rectified linear unit).
 
 
 ### How to choose a model
@@ -522,12 +534,13 @@ That's RELU (rectified linear).
 
 General approach:
 
-Start with the smallest/fastest available model (eg resnet18 for image
-classification). Iterate on *other* stuff (data cleaning, etc) until happy.
+1. Start with the smallest/fastest available model (eg resnet18 for image classification). 
+2. Iterate on *other* stuff (data cleaning, etc) until happy.
 
 **Common Beginner mistake**: trying bigger models before you've done that!
 
 Only then consider bigger models.
+
 If possible look at something like the benchmark graphs in
 https://www.kaggle.com/code/jhoward/which-image-models-are-best/
 ... left is faster, up is more accurate.
@@ -548,7 +561,6 @@ project is impossible.
       "this is all the linear algebra you need for deep learning"
       - it allows you to do a whole lot of RELU functions in one go
       - except for the "set negative to zero" part
-
 
 
 - [ ] Glossed over in the "deep learning in excel" demo: WHY do we have a column of all ones?
@@ -586,8 +598,8 @@ del learn
 del dls  # or whatever your dataloader variable is named
 
 # Force garbage collection and clear CUDA cache
-gc.collect()
 torch.cuda.empty_cache()
+gc.collect()
 
 # Now recreate everything
 dls = ... # Recreate your dataloaders
@@ -613,6 +625,7 @@ All I remember is that "the limit does not exist" won the math competion in _Mea
 So i backtrack to [differential calculus unit 1 limits and continuity](https://www.khanacademy.org/math/differential-calculus/dc-limits)
 ... watched the video, read the article, did the quiz... ok i think that's
 enough!
+
 Back to unit 2... finish the video on newton, leibniz, and bolt... ok that's
 clear...
 and now to the "derivative as a concept" video.
@@ -664,7 +677,7 @@ It's the key to training.
 
 - [ ] TODO: fix the broken images in ch 4.  Maybe copy/pasting the chapters
       wasn't the best strategy :D ... I could possibly make a git subtree
-      and then replace chapters so far with my updates.
+      and then replace chapters so far with my updates.  (*update: yes, i switched to that approach later*)
 
 
 SGD = Stochastic Gradient Descent
