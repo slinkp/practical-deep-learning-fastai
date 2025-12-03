@@ -2,7 +2,7 @@
 
 [Paul Winkler](https://www.recurse.com/directory/5804-paul-winkler)
 
-I did this as part of a weekly study group that spontaneously formed at the
+I did Part 1 (chapters 1-8) as part of a weekly study group that spontaneously formed at the
 [Recurse Center](https://www.recurse.com/). I highly recommend Recurse if you
 want a place to rekindle your excitement about programming and learn in a
 collaborative, encouraging environment. It's phenomenal. And free!
