@@ -89,7 +89,19 @@ Work through and run the jupyter notebooks: definitely all the notebooks linked
 from the website, and probably also most or all of the book
 versions of them.
 
-I ended up putting the book repo as a git subtree in `fastbook/`.
+## How this repo is structured
+
+I wanted a place to combine all my notebooks from website exercises AND from
+the textbook, and notes in this file.
+
+- `requirements.txt` is a set of python requirements that worked for me as of
+  whenever it was last updated :D
+- The [book repo](https://github.com/fastai/fastbook) has been cloned as a git subtree in `fastbook/`
+  - The original, untouched source of each chapter is in
+    `fastbook/clean/*.ipynb`
+  - My edited copies including run output are in `fastbook/*.ipynb`
+- Lesson notebooks for each lecture are in `lessons/`
+
 My finished / edited versions of the book notebooks are in there, check the git
 history.
 
